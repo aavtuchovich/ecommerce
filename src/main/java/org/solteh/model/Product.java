@@ -5,6 +5,7 @@ public class Product {
     private String name;
     private String description;
     private double price;
+    private Node node;
     private String imagePath;
 
     public int getId() {
@@ -45,6 +46,14 @@ public class Product {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public Node getNode() {
+        return node;
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
     }
 }
 
