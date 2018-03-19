@@ -1,11 +1,23 @@
 package org.solteh.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "product")
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
     private int id;
+    @Column
     private String name;
+    @Column
     private String description;
+    @Column
     private double price;
+    @Transient
     private Node node;
+    @Column
     private String imagePath;
 
     public int getId() {

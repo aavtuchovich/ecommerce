@@ -14,11 +14,11 @@ import java.util.List;
 public class ShoppingCart {
     @Id
     @GeneratedValue
-    @Column
+    @Column(name="scart_id")
     private int id;
     @Column
     private Date creationDate;
-    @OneToMany(mappedBy = "shoppingcart")
+    @OneToMany(mappedBy="cart")
     private List<LineItem> items;
 
     public int getId() {
