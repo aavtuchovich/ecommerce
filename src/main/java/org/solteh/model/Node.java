@@ -1,19 +1,41 @@
 package org.solteh.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "nodes")
 public class Node {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column
     private int id;
-    // The main node if parent even 0
     @Column
-    private int parentId;
-    @Column
-    private String title;
+    private String description;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Node parent;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Node> nodes;
+
+    public Node() {
+        nodes = new ArrayList<>();
+    }
+
+    public Node getParent() {
+        return parent;
+    }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
+    }
+
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(List<Node> nodes) {
+        this.nodes = nodes;
+    }
 
     public int getId() {
         return id;
@@ -23,19 +45,15 @@ public class Node {
         this.id = id;
     }
 
-    public int getParentId() {
-        return parentId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void addChild(Node nd) {
+        nodes.add(nd);
     }
 }

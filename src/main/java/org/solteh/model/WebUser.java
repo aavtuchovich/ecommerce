@@ -7,7 +7,7 @@ import javax.persistence.*;
  * The website visitor, considered not logged in yet.
  */
 @Entity
-@Table(name = "user",uniqueConstraints = {@UniqueConstraint(columnNames = "LOGIN")})
+@Table(name = "users",uniqueConstraints = {@UniqueConstraint(columnNames = "LOGIN")})
 public class WebUser {
 
     @Id
