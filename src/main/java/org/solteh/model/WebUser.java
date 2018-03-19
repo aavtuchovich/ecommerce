@@ -1,15 +1,28 @@
 package org.solteh.model;
 
 
+import javax.persistence.*;
+
 /**
  * The website visitor, considered not logged in yet.
  */
+@Entity
+@Table(name = "user",uniqueConstraints = {@UniqueConstraint(columnNames = "LOGIN")})
 public class WebUser {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "USER_ID")
     private int id;
+    @Column(name = "LOGIN",nullable = false,length = 100)
     private String login;
     //Should be encrypted
+    @Column(nullable = false,length = 200)
     private String password;
+    @Enumerated(EnumType.ORDINAL)
+    @Column
     private UserState state;
+    @OneToOne(cascade = CascadeType.ALL)
     private Customer customer;
 
     public int getId() {

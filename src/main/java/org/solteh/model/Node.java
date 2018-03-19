@@ -3,7 +3,7 @@ package org.solteh.model;
 public class Node {
     private int id;
     // The main node if parent even 0
-    private int parent_id;
+    private int parentId;
     private String title;
 
     public int getId() {
@@ -14,12 +14,12 @@ public class Node {
         this.id = id;
     }
 
-    public int getParent_id() {
-        return parent_id;
+    public int getParentId() {
+        return parentId;
     }
 
-    public void setParent_id(int parent_id) {
-        this.parent_id = parent_id;
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 
     public String getTitle() {
