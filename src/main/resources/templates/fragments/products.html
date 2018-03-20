@@ -1,0 +1,16 @@
+<div th:fragment="products" class="container">
+    <div class="row">
+        <th:block th:each="product : ${products}">
+            <div class="col-sm-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading" th:text="${product.name}">BLACK FRIDAY DEAL</div>
+                    <div class="panel-body"><img th:src="${product.imagePath}" class="img-responsive"
+                                                 style="width:100%;height: 200px;" alt="${product.description}"> <a href="#">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                    </a></div>
+                    <div class="panel-footer" th:text="${product.description}">Buy 50 mobiles and get a gift card</div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>

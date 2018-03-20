@@ -1,0 +1,24 @@
+<nav th:fragment="nav" class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Логотип</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li th:class="${content}=='containerExcl'? active : ''"><a href="/">Главная</a></li>
+                <li th:class="${content}=='products'? active : ''"><a href="/products">Товары</a></li>
+                <li th:class="${content}=='topsales'? active : ''"><a href="/topsales">Лучшее предложение</a></li>
+                <li th:class="${content}=='contacts'? active : ''"><a href="/contacts">Контакты</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span>Ваш аккаунт</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Корзина</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
