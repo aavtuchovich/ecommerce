@@ -40,4 +40,9 @@ public class DefaultController {
         return "index";
     }
 
+    @GetMapping("/login")
+    public String getLoginPage(Map<String, Object> model){
+        model.put("content", "login");
+        return "login";
+    }
 }
