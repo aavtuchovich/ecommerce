@@ -45,4 +45,14 @@ public class DefaultController {
         model.put("content", "login");
         return "login";
     }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "/admin";
+    }
+
+    @GetMapping("/user")
+    public String user() {
+        return "/user";
+    }
 }
