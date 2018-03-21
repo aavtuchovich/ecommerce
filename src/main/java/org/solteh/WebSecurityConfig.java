@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/products", "/topsales", "/contacts").permitAll()
+                .antMatchers("/", "/products", "/topsales", "/contacts", "/css/**", "/js/**", "/webjars/**").permitAll()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("USER")
                 .anyRequest().authenticated()
@@ -44,5 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll().and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+
     }
 }
