@@ -1,4 +1,4 @@
-<nav th:fragment="nav" class="navbar navbar-inverse">
+<nav th:fragment="nav" class="navbar navbar-inverse" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -16,11 +16,13 @@
                 <li th:class="${content}=='contacts'? active : ''"><a href="/contacts">Контакты</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-                <form th:action="@{/logout}" method="post">
-                    <input type="submit" value="Sign Out"/>
-                </form>
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span>Ваш аккаунт</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span>
+                    <span sec:authorize="isAuthenticated()">
+                        | Logged user: <span sec:authentication="name"></span> |
+                        Roles: <span sec:authentication="principal.authorities"></span> |
+                        <a th:href="@{/logout}">Sign Out</a>
+                    </span>
+                </a></li>
                 <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Корзина</a></li>
             </ul>
         </div>
