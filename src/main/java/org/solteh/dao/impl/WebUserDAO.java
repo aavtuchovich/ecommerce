@@ -3,6 +3,8 @@ package org.solteh.dao.impl;
 import org.hibernate.search.query.dsl.EntityContext;
 import org.solteh.dao.IWebUserDAO;
 import org.solteh.model.WebUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -15,6 +17,8 @@ import java.util.List;
 public class WebUserDAO implements IWebUserDAO {
     @PersistenceContext
     private EntityManager entityManager;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public WebUser getUserByLogin(String login) {
@@ -23,7 +27,15 @@ public class WebUserDAO implements IWebUserDAO {
     }
 
     @Override
+    public void saveUser(WebUser user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        entityManager.getTransaction().begin();
+        entityManager.persist(user);
+        entityManager.getTransaction().commit();
+    }
+
+    @Override
     public List<WebUser> getAll() {
-        return entityManager.createQuery("SELECT u FROM users u",WebUser.class).getResultList();
+        return entityManager.createQuery("SELECT u FROM users u", WebUser.class).getResultList();
     }
 }

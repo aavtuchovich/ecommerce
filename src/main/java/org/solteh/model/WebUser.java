@@ -1,6 +1,8 @@
 package org.solteh.model;
 
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 
 /**
@@ -17,6 +19,7 @@ public class WebUser {
     @Column(name = "LOGIN",nullable = false,length = 100)
     private String login;
     //Should be encrypted
+    @Length(min = 5, message = "*Your password must have at least 5 characters")
     @Column(nullable = false,length = 200)
     private String password;
     @Enumerated(EnumType.ORDINAL)
