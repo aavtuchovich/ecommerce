@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Access Denied</title>
+</head>
+
+<head th:replace="fragments/head :: head"></head>
+<body>
+
+<div th:replace="fragments/webstore :: webstore"></div>
+<nav th:replace="fragments/nav :: nav"></nav>
+
+<div class="page-title">Access Denied!</div>
+<h3 style="color:red;">Sorry, you can not access this page!</h3>
+
+<th:block th:include="/_footer"></th:block>
+
+</body>
+</html>

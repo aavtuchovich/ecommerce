@@ -1,4 +1,6 @@
-<nav th:fragment="nav" class="navbar navbar-inverse" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<nav th:fragment="nav" class="navbar navbar-inverse"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -11,19 +13,42 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li th:class="${content}=='containerExcl'? active : ''"><a href="/">Главная</a></li>
-                <li th:class="${content}=='products'? active : ''"><a href="/products">Товары</a></li>
+                <li th:class="${content}=='products'? active : ''"><a th:href="@{/productList}">Товары</a></li>
                 <li th:class="${content}=='topsales'? active : ''"><a href="/topsales">Лучшее предложение</a></li>
                 <li th:class="${content}=='contacts'? active : ''"><a href="/contacts">Контакты</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span>
-                    <span sec:authorize="isAuthenticated()">
-                        | Logged user: <span sec:authentication="name"></span> |
-                        Roles: <span sec:authentication="principal.authorities"></span> |
-                        <a th:href="@{/logout}">Sign Out</a>
-                    </span>
-                </a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Корзина</a></li>
+
+
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <th:block sec:authorize="isAuthenticated()">
+                            Hello
+                            <a th:href="@{/admin/accountInfo}" th:utext="${#request.userPrincipal.name}">..</a>
+                            &nbsp;|&nbsp;
+                            <a th:href="@{/admin/logout}">Logout</a>
+                        </th:block>
+
+                        <th:block sec:authorize="!isAuthenticated()">
+                            <a th:href="@{/admin/login}">Login</a>
+                        </th:block>
+                        <th:block sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_EMPLOYEE')">
+                            <a th:href="@{/admin/orderList}">
+                                Order List
+                            </a>
+                            |
+                        </th:block>
+                        <th:block sec:authorize="hasRole('ROLE_MANAGER')">
+                            <a th:href="@{/admin/product}">
+                                Create Product
+                            </a>
+                            |
+                        </th:block>
+                    </a>
+                </li>
+                <li><a th:href="@{/shoppingCart}"><span class="glyphicon glyphicon-shopping-cart"></span> Корзина</a>
+                </li>
             </ul>
         </div>
     </div>

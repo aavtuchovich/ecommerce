@@ -1,86 +1,60 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head>
-    <!-- this is header-css -->
-    <link rel="stylesheet" type="text/css"
-          href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
-
-    <link rel="stylesheet" th:href="@{/css/main.css}"
-          href="../static/css/main.css"/>
-</head>
+<head th:replace="fragments/head :: head"></head>
 <body>
 
-<!-- this is header -->
-<nav class="navbar navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" th:href="@{/}">Spring Boot</a>
+<div th:replace="fragments/webstore :: webstore"></div>
+<nav th:replace="fragments/nav :: nav"></nav>
+
+
+<div class="page-title">Login (For Employee, Manager)</div>
+
+<div class="login-container">
+    <h3>Enter username and password</h3>
+    <br>
+    <!-- /login?error=true -->
+    <th:block th:if="${#session != null && #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}">
+        <div th:if= "${#request.getParameter('error') == 'true'}"
+             style="color: red; margin: 10px 0px;">
+            Login Failed!!!<br /> Reason :
+            <span th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}"></span>
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a th:href="@{/}">Home</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<div class="container">
+    </th:block>
 
-    <div class="row" style="margin-top:20px">
-        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-            <form th:action="@{/login}" method="post">
-                <fieldset>
-                    <h1>Please Sign In</h1>
+    <form method="POST"
+          th:action="@{/j_spring_security_check}">
+        <table>
+            <tr>
+                <td>User Name *</td>
+                <td><input name="userName" /></td>
+            </tr>
+            <tr>
+                <td>Password *</td>
+                <td><input type="password" name="password" /></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <input type="submit" value="Login" />
+                    <input type="reset"  value="Reset" />
+                </td>
+            </tr>
+        </table>
+    </form>
 
-                    <div th:if="${param.error}">
-                        <div class="alert alert-danger">
-                            Invalid username and password.
-                        </div>
-                    </div>
-                    <div th:if="${param.logout}">
-                        <div class="alert alert-info">
-                            You have been logged out.
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" name="username" id="username" class="form-control input-lg"
-                               placeholder="UserName" required="true" autofocus="true"/>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="password" id="password" class="form-control input-lg"
-                               placeholder="Password" required="true"/>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign In"/>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-        </div>
-    </div>
-
+    <span class="error-message" th:utext="${error}"></span>
 </div>
 
-<div class="container">
-
-    <footer>
-        <!-- this is footer -->
-        © 2017 mkyong.com
-        <span sec:authorize="isAuthenticated()">
-                | Logged user: <span sec:authentication="name"></span> |
-                Roles: <span sec:authentication="principal.authorities"></span> |
-                <a th:href="@{/logout}">Sign Out</a>
-            </span>
-
-        <script type="text/javascript"
-                src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
-
-    </footer>
+<div style="text-align:left">
+    <h3>User/Password:</h3>
+    <ul>
+        <li>employee1/123</li>
+        <li>manager1/123</li>
+    </ul>
 </div>
+<br><br>
+
+<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>
