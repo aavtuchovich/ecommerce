@@ -2,10 +2,13 @@ package org.solteh;
 
 import java.util.Properties;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
+import org.solteh.dao.AccountDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +26,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @EnableAutoConfiguration(exclude = {
         DataSourceAutoConfiguration.class,
-        DataSourceTransactionManagerAutoConfiguration.class})
+        DataSourceTransactionManagerAutoConfiguration.class,
+        HibernateJpaAutoConfiguration.class})
 public class SpringBootWebApplication {
     private final Environment env;
 
@@ -54,27 +58,29 @@ public class SpringBootWebApplication {
     @Autowired
     @Bean(name = "sessionFactory")
     public SessionFactory getSessionFactory(DataSource dataSource) throws Exception {
-        Properties properties = new Properties();
-
-        // See: application.properties
-        properties.put("hibernate.dialect", env.getProperty("spring.jpa.properties.hibernate.dialect"));
-        properties.put("hibernate.show_sql", env.getProperty("spring.jpa.show-sql"));
-        properties.put("hibernate.generate-ddl",env.getProperty("spring.jpa.generate-ddl"));
-        properties.put("hibernate.ddl-auto",env.getProperty("spring.jpa.hibernate.ddl-auto"));
-        properties.put("current_session_context_class", //
-                env.getProperty("spring.jpa.properties.hibernate.current_session_context_class"));
-
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-
         // Package contain entity classes
         factoryBean.setPackagesToScan("");
         factoryBean.setDataSource(dataSource);
-        factoryBean.setHibernateProperties(properties);
+        factoryBean.setHibernateProperties(getProperties());
         factoryBean.afterPropertiesSet();
         //
         SessionFactory sf = factoryBean.getObject();
         System.out.println("## getSessionFactory: " + sf);
         return sf;
+    }
+
+    private Properties getProperties() {
+        Properties properties = new Properties();
+
+        // See: application.properties
+        properties.put("hibernate.dialect", env.getProperty("spring.jpa.properties.hibernate.dialect"));
+        properties.put("hibernate.show_sql", env.getProperty("spring.jpa.show-sql"));
+        properties.put("hibernate.generate-ddl", env.getProperty("spring.jpa.generate-ddl"));
+        properties.put("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
+        properties.put("current_session_context_class", //
+                env.getProperty("spring.jpa.properties.hibernate.current_session_context_class"));
+        return properties;
     }
 
     @Autowired
