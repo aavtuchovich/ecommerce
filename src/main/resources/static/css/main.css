@@ -1,4 +1,6 @@
-
+.jumbotron {
+    margin-bottom: 0 !important;
+}
 .header-container {
     text-align: left;
     border-bottom: 1px solid #ccc;

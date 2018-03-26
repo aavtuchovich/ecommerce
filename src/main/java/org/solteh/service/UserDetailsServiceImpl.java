@@ -11,15 +11,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    private final AccountDAO accountDAO;
+
     @Autowired
-    private AccountDAO accountDAO;
+    public UserDetailsServiceImpl(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -42,12 +48,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         grantList.add(authority);
 
         boolean enabled = account.isActive();
-        boolean accountNonExpired = true;
-        boolean credentialsNonExpired = true;
-        boolean accountNonLocked = true;
 
         return new User(account.getUserName(), //
-                account.getEncrytedPassword(), enabled, accountNonExpired, //
-                credentialsNonExpired, accountNonLocked, grantList);
+                account.getEncrytedPassword(), enabled, true, //
+                true, true, grantList);
     }
 }
