@@ -72,7 +72,7 @@ public class DefaultController {
     }
 
     // Product List
-    @GetMapping({"/productList"})
+    @GetMapping({"/products", "/topsales"})
     public String listProductHandler(Model model, //
                                      @RequestParam(value = "name", defaultValue = "") String likeName,
                                      @RequestParam(value = "page", defaultValue = "1") int page) {
@@ -86,6 +86,10 @@ public class DefaultController {
         return "productList";
     }
 
+    @GetMapping("/contacts")
+    public String getContactsPage(Model model){
+        return "contact";
+    }
     @GetMapping({"/buyProduct"})
     public String listProductHandler(HttpServletRequest request, Model model, //
                                      @RequestParam(value = "code", defaultValue = "") String code) {
