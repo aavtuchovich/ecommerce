@@ -24,20 +24,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.apache.commons.lang.exception.ExceptionUtils;
+
 import java.util.List;
 
 @Controller
 @Transactional
 public class AdminController {
 
-    @Autowired
-    private OrderDAO orderDAO;
+    private final OrderDAO orderDAO;
+
+    private final ProductDAO productDAO;
+
+    private final ProductFormValidator productFormValidator;
 
     @Autowired
-    private ProductDAO productDAO;
-
-    @Autowired
-    private ProductFormValidator productFormValidator;
+    public AdminController(OrderDAO orderDAO, ProductDAO productDAO, ProductFormValidator productFormValidator) {
+        this.orderDAO = orderDAO;
+        this.productDAO = productDAO;
+        this.productFormValidator = productFormValidator;
+    }
 
     @InitBinder
     public void myInitBinder(WebDataBinder dataBinder) {
@@ -55,7 +60,6 @@ public class AdminController {
     // GET: Show Login Page
     @RequestMapping(value = {"/admin/login"}, method = RequestMethod.GET)
     public String login(Model model) {
-
         return "login";
     }
 

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="fragments/head :: head"></head>
+<body>
+
+<div th:replace="fragments/webstore :: webstore"></div>
+<nav th:replace="fragments/nav :: nav"></nav>
+
+
+<div class="container">
+    <h2>Профиль пользователя</h2>
+    <div class="account-container">
+        <ul>
+            <li>Имя пользователя: <span th:utext="${#request.userPrincipal.name}"></span></li>
+            <span>
+                Статус:
+                <span th:each="auth : ${userDetails.authorities}" th:utext="${auth.authority}"></span>
+
+            </li>
+        </ul>
+    </div>
+</div>
+<br><br>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

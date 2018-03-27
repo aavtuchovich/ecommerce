@@ -41,12 +41,6 @@
                                     <a th:href="@{/admin/product}">Добавить продукт</a>
                                 </li>
                             </th:block>
-
-                            <li>
-                                <th:block sec:authorize="hasRole('ROLE_MANAGER')">
-                                    <a th:href="@{/admin/product}">Добавить продукт</a>
-                                </th:block>
-                            </li>
                             <li role="separator" class="divider"></li>
                             <li><a th:href="@{/admin/logout}">Выйти</a></li>
                         </ul>
