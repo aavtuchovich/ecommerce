@@ -17,11 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
@@ -58,12 +54,12 @@ public class AdminController {
     }
 
     // GET: Show Login Page
-    @RequestMapping(value = {"/admin/login"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/admin/login"})
     public String login(Model model) {
         return "login";
     }
 
-    @RequestMapping(value = {"/admin/accountInfo"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/admin/accountInfo"})
     public String accountInfo(Model model) {
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -75,7 +71,7 @@ public class AdminController {
         return "accountInfo";
     }
 
-    @RequestMapping(value = {"/admin/orderList"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/admin/orderList"})
     public String orderList(Model model, //
                             @RequestParam(value = "page", defaultValue = "1") String pageStr) {
         int page = 1;
@@ -94,7 +90,7 @@ public class AdminController {
     }
 
     // GET: Show product.
-    @RequestMapping(value = {"/admin/product"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/admin/product"})
     public String product(Model model, @RequestParam(value = "code", defaultValue = "") String code) {
         ProductForm productForm = null;
 
@@ -113,7 +109,7 @@ public class AdminController {
     }
 
     // POST: Save product
-    @RequestMapping(value = {"/admin/product"}, method = RequestMethod.POST)
+    @PostMapping(value = {"/admin/product"})
     public String productSave(Model model, //
                               @ModelAttribute("productForm") @Validated ProductForm productForm, //
                               BindingResult result, //
@@ -135,7 +131,7 @@ public class AdminController {
         return "redirect:/productList";
     }
 
-    @RequestMapping(value = {"/admin/order"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/admin/order"})
     public String orderView(Model model, @RequestParam("orderId") String orderId) {
         OrderInfo orderInfo = null;
         if (orderId != null) {
