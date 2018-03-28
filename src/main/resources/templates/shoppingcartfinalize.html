@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="fragments/head :: head"></head>
+<body>
+
+<div th:replace="fragments/webstore :: webstore"></div>
+<nav th:replace="fragments/nav :: nav"></nav>
+
+
+<div class="container">
+    <div class="page-title">Заказ успешно оформлен!</div>
+    <div class="container">
+        <h3>Спасибо за ваш заказ!</h3>
+        Ваш номер заказа: <span th:utext="${lastOrderedCart.orderNum}"></span>
+    </div>
+</div>
+
+<br><br>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

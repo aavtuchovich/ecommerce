@@ -2,6 +2,7 @@ package org.solteh.web.controller;
 
 import org.solteh.dao.OrderDAO;
 import org.solteh.dao.ProductDAO;
+import org.solteh.entity.Account;
 import org.solteh.entity.Product;
 import org.solteh.form.ProductForm;
 import org.solteh.model.OrderDetailInfo;
@@ -10,6 +11,7 @@ import org.solteh.pagination.PaginationResult;
 import org.solteh.validator.ProductFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +27,7 @@ import java.util.List;
 
 @Controller
 @Transactional
-public class AdminController {
+public class UserController {
 
     private final OrderDAO orderDAO;
 
@@ -34,7 +36,7 @@ public class AdminController {
     private final ProductFormValidator productFormValidator;
 
     @Autowired
-    public AdminController(OrderDAO orderDAO, ProductDAO productDAO, ProductFormValidator productFormValidator) {
+    public UserController(OrderDAO orderDAO, ProductDAO productDAO, ProductFormValidator productFormValidator) {
         this.orderDAO = orderDAO;
         this.productDAO = productDAO;
         this.productFormValidator = productFormValidator;
@@ -59,6 +61,11 @@ public class AdminController {
         return "login";
     }
 
+    @GetMapping("/admin/register")
+    public String register(Model model){
+        model.addAttribute("user",new Account());
+        return "register";
+    }
     @GetMapping(value = {"/admin/accountInfo"})
     public String accountInfo(Model model) {
 
@@ -128,7 +135,7 @@ public class AdminController {
             return "product";
         }
 
-        return "redirect:/productList";
+        return "redirect:/products";
     }
 
     @GetMapping(value = {"/admin/order"})
