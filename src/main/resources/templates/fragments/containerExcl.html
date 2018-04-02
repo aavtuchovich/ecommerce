@@ -6,7 +6,6 @@
                     <div class="panel-heading" th:text="${prodInfo.name}">BLACK FRIDAY DEAL</div>
                     <div class="panel-body"><img th:src="@{|/productImage?code=${prodInfo.code}|}"
                                                  class="img-responsive">
-                        <ul>
                             <li>Код товара: <span th:utext="${prodInfo.code}"></span></li>
                             <li><span class="html-editor-bold" th:utext="${prodInfo.name}"></span></li>
                             </li>
