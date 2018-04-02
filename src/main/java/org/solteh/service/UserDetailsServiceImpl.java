@@ -1,12 +1,11 @@
 package org.solteh.service;
 
-import org.solteh.dao.AccountDAO;
-import org.solteh.entity.Account;
+import org.solteh.dao.UserDAO;
+import org.solteh.entity.User;
 import org.solteh.entity.UserState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,25 +19,25 @@ import java.util.List;
 @Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final AccountDAO accountDAO;
+    private final UserDAO userDAO;
 
     @Autowired
-    public UserDetailsServiceImpl(AccountDAO accountDAO) {
-        this.accountDAO = accountDAO;
+    public UserDetailsServiceImpl(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountDAO.findAccount(username);
-        System.out.println("Account= " + account);
+        User user = userDAO.findAccount(username);
+        System.out.println("User= " + user);
 
-        if (account == null) {
+        if (user == null) {
             throw new UsernameNotFoundException("User " //
                     + username + " was not found in the database");
         }
 
         // EMPLOYEE,MANAGER,..
-        UserState role = account.getUserState();
+        UserState role = user.getUserState();
 
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
 
@@ -47,10 +46,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         grantList.add(authority);
 
-        boolean enabled = account.isActive();
+        boolean enabled = user.isActive();
 
-        return new User(account.getUserName(), //
-                account.getEncrytedPassword(), enabled, true, //
+        return new org.springframework.security.core.userdetails.User(user.getUserName(), //
+                user.getEncrytedPassword(), enabled, true, //
                 true, true, grantList);
     }
 }

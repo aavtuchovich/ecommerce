@@ -2,7 +2,7 @@ package org.solteh.web.controller;
 
 import org.solteh.dao.OrderDAO;
 import org.solteh.dao.ProductDAO;
-import org.solteh.entity.Account;
+import org.solteh.entity.User;
 import org.solteh.entity.Product;
 import org.solteh.form.ProductForm;
 import org.solteh.model.OrderDetailInfo;
@@ -11,7 +11,6 @@ import org.solteh.pagination.PaginationResult;
 import org.solteh.validator.ProductFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,7 +62,7 @@ public class UserController {
 
     @GetMapping("/admin/register")
     public String register(Model model){
-        model.addAttribute("user",new Account());
+        model.addAttribute("user",new User());
         return "register";
     }
     @GetMapping(value = {"/admin/accountInfo"})
