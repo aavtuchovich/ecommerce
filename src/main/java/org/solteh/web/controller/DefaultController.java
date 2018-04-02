@@ -1,13 +1,14 @@
 package org.solteh.web.controller;
 
-import org.solteh.dao.OrderDAO;
-import org.solteh.dao.ProductDAO;
+import org.solteh.entity.Order;
 import org.solteh.entity.Product;
 import org.solteh.form.CustomerForm;
 import org.solteh.model.CartInfo;
 import org.solteh.model.CustomerInfo;
 import org.solteh.model.ProductInfo;
 import org.solteh.pagination.PaginationResult;
+import org.solteh.repository.OrderRepository;
+import org.solteh.repository.ProductRepository;
 import org.solteh.utils.Utils;
 import org.solteh.validator.CustomerFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;

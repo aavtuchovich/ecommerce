@@ -1,13 +1,13 @@
 package org.solteh.web.controller;
 
-import org.solteh.dao.OrderDAO;
-import org.solteh.dao.ProductDAO;
-import org.solteh.entity.User;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.solteh.entity.Product;
 import org.solteh.form.ProductForm;
 import org.solteh.model.OrderDetailInfo;
 import org.solteh.model.OrderInfo;
 import org.solteh.pagination.PaginationResult;
+import org.solteh.repository.OrderRepository;
+import org.solteh.repository.ProductRepository;
 import org.solteh.validator.ProductFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +20,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.apache.commons.lang.exception.ExceptionUtils;
 
 import java.util.List;
 

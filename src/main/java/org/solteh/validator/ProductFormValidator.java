@@ -1,8 +1,8 @@
 package org.solteh.validator;
 
-import org.solteh.dao.ProductDAO;
 import org.solteh.entity.Product;
 import org.solteh.form.ProductForm;
+import org.solteh.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
