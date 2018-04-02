@@ -39,6 +39,13 @@
                 </td>
             </tr>
             <tr>
+                <td>Описание продукта продукта *</td>
+                <td><input th:field="*{description}"  /></td>
+                <td>
+                    <span class="error-message" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">..</span>
+                </td>
+            </tr>
+            <tr>
                 <td>Цена *</td>
                 <td><input th:field="*{price}"  /></td>
                 <td>

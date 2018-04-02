@@ -5,6 +5,7 @@ import org.solteh.entity.Product;
 public class ProductInfo {
     private String code;
     private String name;
+    private String description;
     private double price;
 
     public ProductInfo() {
@@ -14,13 +15,15 @@ public class ProductInfo {
         this.code = product.getCode();
         this.name = product.getName();
         this.price = product.getPrice();
+        this.description = product.getDescription();
     }
 
     // Using in JPA/Hibernate query
-    public ProductInfo(String code, String name, double price) {
+    public ProductInfo(String code, String name, double price, String description) {
         this.code = code;
         this.name = name;
         this.price = price;
+        this.description = description;
     }
 
     public String getCode() {
@@ -45,5 +48,13 @@ public class ProductInfo {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

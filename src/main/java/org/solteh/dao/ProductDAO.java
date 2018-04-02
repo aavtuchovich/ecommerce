@@ -42,7 +42,7 @@ public class ProductDAO {
         if (product == null) {
             return null;
         }
-        return new ProductInfo(product.getCode(), product.getName(), product.getPrice());
+        return new ProductInfo(product.getCode(), product.getName(), product.getPrice(), product.getDescription());
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
@@ -65,6 +65,7 @@ public class ProductDAO {
         product.setCode(code);
         product.setName(productForm.getName());
         product.setPrice(productForm.getPrice());
+        product.setDescription(productForm.getDescription());
 
         if (productForm.getFileData() != null) {
             byte[] image = null;
@@ -86,7 +87,7 @@ public class ProductDAO {
     public PaginationResult<ProductInfo> queryProducts(int page, int maxResult, int maxNavigationPage,
                                                        String likeName) {
         String sql = "Select new " + ProductInfo.class.getName() //
-                + "(p.code, p.name, p.price) " + " from "//
+                + "(p.code, p.name, p.price, p.description) " + " from "//
                 + Product.class.getName() + " p ";
         if (likeName != null && likeName.length() > 0) {
             sql += " Where lower(p.name) like :likeName ";

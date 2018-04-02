@@ -45,7 +45,7 @@
             <ul>
                 <li>
                     <img class="product-image"
-                         src="@{|/productImage?code=${cartLineInfo.productInfo.code}|}"/>
+                         th:src="@{|/productImage?code=${cartLineInfo.productInfo.code}|}"/>
                 </li>
                 <li>
                     Код: <span th:utext="${cartLineInfo.productInfo.code}"></span>

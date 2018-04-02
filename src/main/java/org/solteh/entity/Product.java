@@ -17,6 +17,9 @@ public class Product implements Serializable {
     @Column(name = "Name", length = 255, nullable = false)
     private String name;
 
+    @Column(name = "Description")
+    private String description;
+
     @Column(name = "Price", nullable = false)
     private double price;
 
@@ -70,6 +73,14 @@ public class Product implements Serializable {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
 
