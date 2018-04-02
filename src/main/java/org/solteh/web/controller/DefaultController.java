@@ -28,16 +28,16 @@ import java.io.IOException;
 @Transactional
 public class DefaultController {
 
-    private final OrderDAO orderDAO;
+    private final OrderRepository orderRepository;
 
-    private final ProductDAO productDAO;
+    private final ProductRepository productRepository;
 
     private final CustomerFormValidator customerFormValidator;
 
     @Autowired
-    public DefaultController(OrderDAO orderDAO, ProductDAO productDAO, CustomerFormValidator customerFormValidator) {
-        this.orderDAO = orderDAO;
-        this.productDAO = productDAO;
+    public DefaultController(OrderRepository orderRepository, ProductRepository productRepository, CustomerFormValidator customerFormValidator) {
+        this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
         this.customerFormValidator = customerFormValidator;
     }
 
@@ -71,7 +71,7 @@ public class DefaultController {
         final int maxResult = 3;
         final int maxNavigationPage = 100;
 
-        PaginationResult<ProductInfo> result = productDAO.queryProducts(1, //
+        PaginationResult<ProductInfo> result = productRepository.queryProducts(1, //
                 3, 1, "");
 
         model.addAttribute("paginationProducts", result);
@@ -86,7 +86,7 @@ public class DefaultController {
         final int maxResult = 6;
         final int maxNavigationPage = 100;
 
-        PaginationResult<ProductInfo> result = productDAO.queryProducts(page, //
+        PaginationResult<ProductInfo> result = productRepository.queryProducts(page, //
                 maxResult, maxNavigationPage, likeName);
 
         model.addAttribute("paginationProducts", result);
@@ -103,7 +103,7 @@ public class DefaultController {
 
         Product product = null;
         if (code != null && code.length() > 0) {
-            product = productDAO.findProduct(code);
+            product = productRepository.findProduct(code);
         }
         if (product != null) {
 
@@ -123,7 +123,7 @@ public class DefaultController {
                                        @RequestParam(value = "code", defaultValue = "") String code) {
         Product product = null;
         if (code != null && code.length() > 0) {
-            product = productDAO.findProduct(code);
+            product = productRepository.findProduct(code);
         }
         if (product != null) {
 
@@ -230,7 +230,14 @@ public class DefaultController {
             return "redirect:/shoppingCartCustomer";
         }
         try {
-            orderDAO.saveOrder(cartInfo);
+            Order order = new Order();
+            order.setAmount(cartInfo.getAmountTotal());
+            order.setCustomerAddress(cartInfo.getCustomerInfo().getAddress());
+            order.setCustomerEmail(cartInfo.getCustomerInfo().getEmail());
+            order.setCustomerName(cartInfo.getCustomerInfo().getName());
+            order.setCustomerPhone(cartInfo.getCustomerInfo().getPhone());
+            order.setOrderNum(cartInfo.getOrderNum());
+            orderRepository.save(order);
         } catch (Exception e) {
 
             return "shoppingCartConfirmation";
@@ -262,7 +269,7 @@ public class DefaultController {
                              @RequestParam("code") String code) throws IOException {
         Product product = null;
         if (code != null) {
-            product = this.productDAO.findProduct(code);
+            product = this.productRepository.findProduct(code);
         }
         if (product != null && product.getImage() != null) {
             response.setContentType("image/jpeg, image/jpg, image/png, image/gif");

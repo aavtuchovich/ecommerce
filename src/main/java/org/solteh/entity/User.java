@@ -6,10 +6,10 @@ import java.io.Serializable;
 @Entity
 @Table(name = "Users")
 public class User implements Serializable {
-
-    private static final long serialVersionUID = -2054386655979281969L;
-
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @Column(name = "User_Name", length = 20, nullable = false)
     private String userName;
 
@@ -22,10 +22,6 @@ public class User implements Serializable {
     @Enumerated
     @Column(name = "User_State")
     private UserState userState;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public String getUserName() {
         return userName;
@@ -57,5 +53,13 @@ public class User implements Serializable {
 
     public void setUserState(UserState userState) {
         this.userState = userState;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

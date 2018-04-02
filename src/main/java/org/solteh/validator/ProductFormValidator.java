@@ -11,13 +11,17 @@ import org.springframework.validation.Validator;
 
 @Component
 public class ProductFormValidator implements Validator {
+    private final ProductRepository productRepository;
+
     @Autowired
-    private ProductDAO productDAO;
+    public ProductFormValidator(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     // This validator only checks for the ProductForm.
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz == ProductForm.class;
+        return clazz == Product.class;
     }
 
     @Override
@@ -34,7 +38,7 @@ public class ProductFormValidator implements Validator {
             if (code.matches("\\s+")) {
                 errors.rejectValue("code", "Pattern.productForm.code");
             } else if (productForm.isNewProduct()) {
-                Product product = productDAO.findProduct(code);
+                Product product = productRepository.findProduct(code);
                 if (product != null) {
                     errors.rejectValue("code", "Duplicate.productForm.code");
                 }

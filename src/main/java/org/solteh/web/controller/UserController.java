@@ -28,16 +28,16 @@ import java.util.List;
 @Transactional
 public class UserController {
 
-    private final OrderDAO orderDAO;
+    private final OrderRepository orderRepository;
 
-    private final ProductDAO productDAO;
+    private final ProductRepository productRepository;
 
     private final ProductFormValidator productFormValidator;
 
     @Autowired
-    public UserController(OrderDAO orderDAO, ProductDAO productDAO, ProductFormValidator productFormValidator) {
-        this.orderDAO = orderDAO;
-        this.productDAO = productDAO;
+    public UserController(OrderRepository orderRepository, ProductRepository productRepository, ProductFormValidator productFormValidator) {
+        this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
         this.productFormValidator = productFormValidator;
     }
 
@@ -54,17 +54,7 @@ public class UserController {
         }
     }
 
-    // GET: Show Login Page
-    @GetMapping(value = {"/admin/login"})
-    public String login(Model model) {
-        return "login";
-    }
 
-    @GetMapping("/admin/register")
-    public String register(Model model){
-        model.addAttribute("user",new User());
-        return "register";
-    }
     @GetMapping(value = {"/admin/accountInfo"})
     public String accountInfo(Model model) {
 
@@ -89,7 +79,7 @@ public class UserController {
         final int MAX_NAVIGATION_PAGE = 10;
 
         PaginationResult<OrderInfo> paginationResult //
-                = orderDAO.listOrderInfo(page, MAX_RESULT, MAX_NAVIGATION_PAGE);
+                = orderRepository.listOrderInfo(page, MAX_RESULT, MAX_NAVIGATION_PAGE);
 
         model.addAttribute("paginationResult", paginationResult);
         return "orderList";
@@ -101,7 +91,7 @@ public class UserController {
         ProductForm productForm = null;
 
         if (code != null && code.length() > 0) {
-            Product product = productDAO.findProduct(code);
+            Product product = productRepository.findProduct(code);
             if (product != null) {
                 productForm = new ProductForm(product);
             }
@@ -125,7 +115,13 @@ public class UserController {
             return "product";
         }
         try {
-            productDAO.save(productForm);
+            Product newProduct = new Product();
+            newProduct.setCode(productForm.getCode());
+            newProduct.setDescription(productForm.getDescription());
+            newProduct.setImage(productForm.getFileData().getBytes());
+            newProduct.setName(productForm.getName());
+            newProduct.setPrice(productForm.getPrice());
+            productRepository.save(new Product());
         } catch (Exception e) {
             Throwable rootCause = ExceptionUtils.getRootCause(e);
             String message = rootCause.getMessage();
@@ -141,12 +137,12 @@ public class UserController {
     public String orderView(Model model, @RequestParam("orderId") String orderId) {
         OrderInfo orderInfo = null;
         if (orderId != null) {
-            orderInfo = this.orderDAO.getOrderInfo(orderId);
+            orderInfo = this.orderRepository.getOrderInfo(orderId);
         }
         if (orderInfo == null) {
             return "redirect:/admin/orderList";
         }
-        List<OrderDetailInfo> details = this.orderDAO.listOrderDetailInfos(orderId);
+        List<OrderDetailInfo> details = this.orderRepository.listOrderDetailInfos(orderId);
         orderInfo.setDetails(details);
 
         model.addAttribute("orderInfo", orderInfo);
