@@ -1,4 +1,4 @@
-package org.solteh.entity;
+package org.solteh.model;
 
 public enum UserState{
     ROLE_MANAGER,

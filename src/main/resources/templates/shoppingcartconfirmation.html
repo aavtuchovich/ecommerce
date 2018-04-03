@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>
 <head th:replace="fragments/head :: head"></head>
 <body>
 
@@ -12,12 +12,7 @@
     <div class="page-title">Подтверждение заказа</div>
     <div class="customer-info-container">
         <h3>Информация о заказчике:</h3>
-        <ul>
-            <li>Имя: <span th:utext="${myCart.customerInfo.name}"></span></li>
-            <li>Email: <span th:utext="${myCart.customerInfo.email}"></span></li>
-            <li>Телефон: <span th:utext="${myCart.customerInfo.phone}"></span></li>
-            <li>Адрес: <span th:utext="${myCart.customerInfo.address}"></span></li>
-        </ul>
+
         <h3>Обзор корзины:</h3>
         <ul>
             <li>Кол-во: <span th:utext="${myCart.quantityTotal}"></span></li>

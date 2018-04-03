@@ -37,7 +37,7 @@
                         <ul class="dropdown-menu">
                             <th:block sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_EMPLOYEE')">
                                 <li><a th:href="@{/profile}">Профиль</a></li>
-                                <li><a th:href="@{/orders}">Список заказов</a></li>
+                                <li><a th:href="@{/user/orders}">Список заказов</a></li>
                             </th:block>
                             <th:block sec:authorize="hasRole('ROLE_MANAGER')">
                                 <li role="separator" class="divider"></li>

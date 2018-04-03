@@ -1,6 +1,6 @@
 package org.solteh.web.controller;
 
-import org.solteh.entity.User;
+import org.solteh.model.User;
 import org.solteh.service.SecurityService;
 import org.solteh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
-package org.solteh.entity;
+package org.solteh.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "Order_Details")

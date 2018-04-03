@@ -1,7 +1,7 @@
 package org.solteh.service;
 
-import org.solteh.entity.User;
-import org.solteh.entity.UserState;
+import org.solteh.model.User;
+import org.solteh.model.UserState;
 import org.solteh.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -32,9 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByUserName(username);
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (UserState role : UserState.values()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.name()));
-        }
+        grantedAuthorities.add(new SimpleGrantedAuthority(UserState.ROLE_EMPLOYEE.name()));
 
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getEncrytedPassword(), grantedAuthorities);
     }

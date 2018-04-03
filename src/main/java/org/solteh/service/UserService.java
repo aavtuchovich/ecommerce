@@ -1,6 +1,6 @@
 package org.solteh.service;
 
-import org.solteh.entity.User;
+import org.solteh.model.User;
 
 public interface UserService {
     void save(User user);

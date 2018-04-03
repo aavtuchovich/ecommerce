@@ -1,4 +1,4 @@
-package org.solteh.entity;
+package org.solteh.model;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -42,6 +42,10 @@ public class Order {
 	@JoinColumn(name = "USER_ID", nullable = false, //
 			foreignKey = @ForeignKey(name = "ORDER_USR_FK"))
 	private User user;
+
+    public Order() {
+        details = new OrderDetail();
+    }
 
 	public Date getOrderDate() {
 		return orderDate;

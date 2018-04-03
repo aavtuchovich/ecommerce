@@ -1,7 +1,7 @@
 package org.solteh.service;
 
-import org.solteh.entity.User;
-import org.solteh.entity.UserState;
+import org.solteh.model.User;
+import org.solteh.model.UserState;
 import org.solteh.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
