@@ -14,16 +14,16 @@
     <div class="customer-info-container">
         <h3>Заказчик:</h3>
         <ul>
-            <li>Имя: <span th:utext="${orderInfo.customerName}"></span></li>
-            <li>Email: <span th:utext="${orderInfo.customerEmail}"></span></li>
-            <li>Телефон: <span th:utext="${orderInfo.customerPhone}"></span></li>
-            <li>Адрес: <span th:utext="${orderInfo.customerAddress}"></span></li>
+            <li>Имя: <span th:utext="${order.getCustomerName()}"></span></li>
+            <li>Email: <span th:utext="${order.getCustomerEmail()}"></span></li>
+            <li>Телефон: <span th:utext="${order.getCustomerPhone()}"></span></li>
+            <li>Адрес: <span th:utext="${order.getCustomerAddress()}"></span></li>
         </ul>
 
         <ul>
             <li>
                 <h3>Сумма заказа:
-                    <span class="total" th:utext="${#numbers.formatDecimal(orderInfo.amount,3,2,'COMMA')}"></span>
+                    <span class="total" th:utext="${#numbers.formatDecimal(order.getAmount(),3,2,'COMMA')}"></span>
                 </h3>
             </li>
         </ul>

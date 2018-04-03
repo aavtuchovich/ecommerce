@@ -1,95 +1,82 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head"></head>
 <body>
 
 <div th:replace="fragments/webstore :: webstore"></div>
 <nav th:replace="fragments/nav :: nav"></nav>
 <div class="container">
-    <div class="middle-box text-center loginscreen animated fadeInDown">
-        <div>
+	<div class="middle-box text-center loginscreen animated fadeInDown">
+		<div>
 
-            <h4>New User Registration</h4>
+			<h4>New User Registration</h4>
 
-            <form autocomplete="off" action="#" th:action="@{/admin/register}"
-                  th:object="${user}" method="post" class="m-t" role="form"
-                  data-toggle="validator">
+			<form autocomplete="off"
+			      action="#"
+			      th:action="@{/registration}"
+			      th:object="${userForm}"
+			      method="post"
+			      class="m-t"
+			      role="form"
+			      data-toggle="validator">
 
-                <div th:if="${confirmationMessage}" class="alert alert-success"
-                     role="alert" th:text=${confirmationMessage}></div>
+				<div th:if="${#fields.hasErrors('userName')}"
+				     th:errors="*{userName}"
+				     class="validation-message alert alert-danger"
+				     role="alert"></div>
 
-                <div th:if="${errorMessage}"
-                     class="alert alert-danger" role="alert"
-                     th:text="${errorMessage}"></div>
+				<div th:if="${#fields.hasErrors('encrytedPassword')}"
+				     th:errors="*{encrytedPassword}"
+				     class="validation-message alert alert-danger"
+				     role="alert"></div>
 
+				<div class="form-group input-group has-feedback">
+					<label th:if="${#fields.hasErrors('userName')}"
+					       th:errors="*{userName}"
+					       class="validation-message"></label>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+					<input type="text" th:field="*{userName}" placeholder="userName" class="form-control" required/>
+					<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				</div>
+				<div class="form-group input-group has-feedback">
+					<label th:if="${#fields.hasErrors('email')}"
+					       th:errors="*{email}"
+					       class="validation-message"></label>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+					<input type="text" th:field="*{email}" placeholder="email" class="form-control" required/>
+					<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				</div>
 
-                <div th:if="${#fields.hasErrors('firstName')}"
-                     th:errors="*{firstName}"
-                     class="validation-message alert alert-danger" role="alert"></div>
-
-                <div th:if="${#fields.hasErrors('lastName')}"
-                     th:errors="*{lastName}"
-                     class="validation-message alert alert-danger" role="alert"></div>
-
-                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-                     class="validation-message alert alert-danger" role="alert"></div>
-
-                <div class="form-group input-group has-feedback">
-                    <label th:if="${#fields.hasErrors('firstName')}"
-                           th:errors="*{firstName}" class="validation-message"></label>
-                    <span class="input-group-addon">
-            <span class="glyphicon glyphicon-user"></span>
-          </span>
-
-                    <input type="text" th:field="*{firstName}"
-                           placeholder="First Name" class="form-control" required/>
-                    <span class="glyphicon form-control-feedback"
-                          aria-hidden="true"></span>
-                </div>
-
-                <div class="form-group input-group has-feedback">
+				<div class="form-group input-group">
           <span class="input-group-addon">
-            <span class="glyphicon glyphicon-user"></span>
+            <span class="glyphicon glyphicon-lock"></span>
           </span>
-                    <input type="text" th:field="*{lastName}"
-                           placeholder="Last Name" class="form-control" required/>
-                    <span class="glyphicon form-control-feedback"
-                          aria-hidden="true"></span>
-                </div>
+					<input name="password"
+					       type="password"
+					       th:field="*{encrytedPassword}"
+					       id="password"
+					       placeholder="Password"
+					       class="form-control"
+					       required/>
+					<span class="glyphicon" aria-hidden="true"></span>
+				</div>
+				<button type="submit" class="btn btn-primary block full-width m-b">Register</button>
 
-                <div class="form-group input-group has-feedback">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-envelope"></span>
-          </span>
-                    <input type="email" th:field="*{email}"
-                           placeholder="Email Address" class="form-control"
-                           data-error="This email address is invalid" required/>
-                    <span class="glyphicon form-control-feedback"
-                          aria-hidden="true"></span>
+			</form>
 
-                </div>
+		</div>
+	</div>
 
-                <button type="submit"
-                        class="btn btn-primary block full-width m-b">Register
-                </button>
+	<!-- jQuery-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-            </form>
+	<!-- Bootstrap -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	        crossorigin="anonymous"></script>
 
-        </div>
-    </div>
-
-    <!-- jQuery-->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-    <!-- Bootstrap -->
-    <script
-            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-
-    <!-- Bootstrap Validator plugin -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+	<!-- Bootstrap Validator plugin -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
 
 </div>
 <footer th:replace="fragments/footer :: footer"></footer>

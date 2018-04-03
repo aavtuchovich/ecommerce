@@ -1,23 +1,22 @@
 package org.solteh.repository;
 
 import org.solteh.entity.Order;
-import org.solteh.model.OrderDetailInfo;
-import org.solteh.model.OrderInfo;
-import org.solteh.pagination.PaginationResult;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    int getMaxOrderNum();
+	@Query("Select max(o.id) from Order o")
+	int getMaxOrderNum();
 
-    PaginationResult<OrderInfo> listOrderInfo(int page, int maxResult, int maxNavigationPage);
+	@Override
+	List<Order> findAll();
 
-    Order findOrder(String orderId);
+	List<Order> findOrdersByUserId(long id);
 
-    OrderInfo getOrderInfo(String orderId);
-
-    List<OrderDetailInfo> listOrderDetailInfos(String orderId);
+	@Override
+	Order getOne(Long aLong);
 }

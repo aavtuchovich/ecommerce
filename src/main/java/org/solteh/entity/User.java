@@ -5,61 +5,60 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "Users")
-public class User implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class User {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(name = "User_Name", length = 20, nullable = false)
-    private String userName;
+	@Column(name = "User_Name", length = 20, unique = true, nullable = false)
+	private String userName;
 
-    @Column(name = "Encryted_Password", length = 128, nullable = false)
-    private String encrytedPassword;
+	@Column(name = "Encryted_Password", length = 128, nullable = false)
+	private String encrytedPassword;
+	@Column(name = "email", unique = true)
+	private String email;
 
-    @Column(name = "Active", length = 1, nullable = false)
-    private boolean active;
+	@Enumerated
+	@Column(name = "User_State")
+	private UserState userState;
 
-    @Enumerated
-    @Column(name = "User_State")
-    private UserState userState;
+	public String getUserName() {
+		return userName;
+	}
 
-    public String getUserName() {
-        return userName;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+	public String getEncrytedPassword() {
+		return encrytedPassword;
+	}
 
-    public String getEncrytedPassword() {
-        return encrytedPassword;
-    }
+	public void setEncrytedPassword(String encrytedPassword) {
+		this.encrytedPassword = encrytedPassword;
+	}
 
-    public void setEncrytedPassword(String encrytedPassword) {
-        this.encrytedPassword = encrytedPassword;
-    }
+	public UserState getUserState() {
+		return userState;
+	}
 
-    public boolean isActive() {
-        return active;
-    }
+	public void setUserState(UserState userState) {
+		this.userState = userState;
+	}
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public UserState getUserState() {
-        return userState;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setUserState(UserState userState) {
-        this.userState = userState;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }

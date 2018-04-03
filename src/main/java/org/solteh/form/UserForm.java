@@ -18,7 +18,6 @@ public class UserForm {
     public UserForm(User user) {
         this.username = user.getUserName();
         this.password = user.getEncrytedPassword();
-        this.active = user.isActive();
         this.state = user.getUserState();
     }
 

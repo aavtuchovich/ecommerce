@@ -9,24 +9,27 @@
 
 <div th:fragment="products" class="container">
     <div class="row">
-        <th:block th:each="prodInfo : ${paginationProducts.list}">
+        <th:block th:each="product: ${products}">
             <div class="col-sm-4">
                 <div class="panel panel-primary">
-                    <div class="panel-heading" th:text="${prodInfo.name}">BLACK FRIDAY DEAL</div>
-                    <div class="panel-body"><img th:src="@{|/productImage?code=${prodInfo.code}|}"
+                    <div class="panel-heading" th:text="${product.getName()}">BLACK FRIDAY DEAL</div>
+                    <div class="panel-body"><img th:src="@{|/productImage?code=${product.getCode()}|}"
                                                  class="img-responsive">
-                        Код товара: <span th:utext="${prodInfo.code}"></span>
-                        <h2 th:utext="${prodInfo.description}"></h2>
+                        <li>Код товара: <span th:utext="${product.getCode()}"></span></li>
+                        <li><span class="html-editor-bold" th:utext="${product.getName()}"></span></li>
+                        </li>
                         <th:block sec:authorize="hasAuthority('ROLE_MANAGER')">
-                            <a style="color:red;"
-                               th:href="@{|/admin/product?code=${prodInfo.code}|}">Edit Product</a>
+                            <li>
+                                <a style="color:red;"
+                                   th:href="@{|/admin/product?code=${product.getCode()}|}">Edit Product</a>
+                            </li>
                         </th:block>
                         </ul>
                     </div>
                     <div class="panel-footer">
-                        Цена:
-                        <span th:utext="${#numbers.formatDecimal(prodInfo.price,3,2,'COMMA')}"></span> бел. руб.
-                        <a href="#" th:href="@{|/buyProduct?code=${prodInfo.code}|}">
+                        <span th:text="${product.getName()}"></span>
+                        <span th:utext="${#numbers.formatDecimal(product.getPrice(),3,2,'COMMA')}"></span>
+                        <a href="#" th:href="@{|/buyProduct?code=${product.getCode()}|}">
                             <span class="glyphicon glyphicon-shopping-cart pull-right"></span>
                         </a></div>
                 </div>
@@ -34,14 +37,14 @@
         </th:block>
     </div>
     <br><br>
-    <nav aria-label="Page navigation" class="text-center" th:if="${paginationProducts.totalPages > 1}">
+   <!-- <nav aria-label="Page navigation" class="text-center" th:if="${paginationProducts.totalPages > 1}">
         <ul class="pagination">
             <th:block th:each="page : ${paginationProducts.navigationPages}">
                 <li class="page-item"><a class="page-link" th:href="@{|/products?page=${page}|}" th:if="${page != -1}"
                                          th:utext="${page}"></a></li>
             </th:block>
         </ul>
-    </nav>
+    </nav>-->
 </div>
 
 <br><br>

@@ -10,7 +10,7 @@
 
 <div class="container">
     <div class="page-title">Order List</div>
-    <div>Total Order Count: <span th:utext="${paginationResult.totalRecords}"></span></div>
+    <div>Всех заказов: <span th:utext="${orders.size()}"></span></div>
     <table border="1" style="width:100%">
         <tr>
             <th>Order Num</th>
@@ -21,25 +21,25 @@
             <th>Amount</th>
             <th>View</th>
         </tr>
-        <tr th:each="orderInfo : ${paginationResult.list}">
-            <td th:utext="${orderInfo.orderNum}"></td>
-            <td th:utext="${#dates.format(orderInfo.orderDate,'dd-MM-yyyy HH:mm')}"></td>
-            <td th:utext="${orderInfo.customerName}"></td>
-            <td th:utext="${orderInfo.customerAddress}"></td>
-            <td th:utext="${orderInfo.customerEmail}"></td>
-            <td style="color:red;" th:utext="${#numbers.formatDecimal(orderInfo.amount,3,2,'COMMA')}">
+        <tr th:each="order : ${orders}">
+            <td th:utext="${order.id}"></td>
+            <td th:utext="${#dates.format(order.orderDate,'dd-MM-yyyy HH:mm')}"></td>
+            <td th:utext="${order.customerName}"></td>
+            <td th:utext="${order.customerAddress}"></td>
+            <td th:utext="${order.customerEmail}"></td>
+            <td style="color:red;" th:utext="${#numbers.formatDecimal(order.amount,3,2,'COMMA')}">
             </td>
-            <td><a th:href="@{|/admin/order?orderId=${orderInfo.id}|}">View</a></td>
+            <td><a th:href="@{|/admin/order?orderId=${order.id}|}">View</a></td>
         </tr>
     </table>
-    <div class="page-navigator" th:if="${paginationResult.totalPages > 1}">
+   <!-- <div class="page-navigator" th:if="${paginationResult.totalPages > 1}">
         <th:block th:each="page: ${paginationResult.navigationPages}">
             <a th:if="${page != -1}" class="nav-item"
                th:href="@{|/admin/orderList?page=${page}|}" th:utext="${page}"></a>
 
             <span th:if="${page == -1}" class="nav-item"> ... </span>
         </th:block>
-    </div>
+    </div>-->
 
 </div>
 <br><br>

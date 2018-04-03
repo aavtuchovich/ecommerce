@@ -20,10 +20,10 @@
             <ul class="nav navbar-nav navbar-right">
                 <th:block sec:authorize="!isAuthenticated()">
                     <li>
-                        <a th:href="@{/admin/login}">Авторизация</a>
+                        <a th:href="@{/login}">Авторизация</a>
                     </li>
                     <li>
-                        <a th:href="@{/admin/registration}">Регистрация</a>
+                        <a th:href="@{/registration}">Регистрация</a>
                     </li>
                 </th:block>
                 <th:block sec:authorize="isAuthenticated()">
@@ -36,8 +36,8 @@
                         </a>
                         <ul class="dropdown-menu">
                             <th:block sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_EMPLOYEE')">
-                                <li><a th:href="@{/admin/accountInfo}">Профиль</a></li>
-                                <li><a th:href="@{/admin/orderList}">Список заказов</a></li>
+                                <li><a th:href="@{/profile}">Профиль</a></li>
+                                <li><a th:href="@{/orders}">Список заказов</a></li>
                             </th:block>
                             <th:block sec:authorize="hasRole('ROLE_MANAGER')">
                                 <li role="separator" class="divider"></li>
@@ -46,7 +46,7 @@
                                 </li>
                             </th:block>
                             <li role="separator" class="divider"></li>
-                            <li><a th:href="@{/admin/logout}">Выйти</a></li>
+                            <li><a th:href="@{/logout}">Выйти</a></li>
                         </ul>
                     </li>
                 </th:block>

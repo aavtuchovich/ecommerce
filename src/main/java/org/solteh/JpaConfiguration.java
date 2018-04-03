@@ -22,17 +22,19 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "org.solteh",
-        entityManagerFactoryRef = "entityManagerFactory",
-        transactionManagerRef = "transactionManager")
+@EnableJpaRepositories
 @EnableTransactionManagement
 public class JpaConfiguration {
 
-    @Autowired
-    private Environment environment;
+    private final Environment environment;
 
     @Value("${datasource.sampleapp.maxPoolSize:10}")
     private int maxPoolSize;
+
+    @Autowired
+    public JpaConfiguration(Environment environment) {
+        this.environment = environment;
+    }
 
     /*
      * Populate SpringBoot DataSourceProperties object directly from
@@ -71,6 +73,7 @@ public class JpaConfiguration {
      * Entity Manager Factory setup.
      */
     @Bean
+    @Primary
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factoryBean = new
                 LocalContainerEntityManagerFactoryBean();
@@ -86,9 +89,7 @@ public class JpaConfiguration {
      */
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {
-        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new
-                HibernateJpaVendorAdapter();
-        return hibernateJpaVendorAdapter;
+        return new HibernateJpaVendorAdapter();
     }
 
     /*
@@ -101,14 +102,5 @@ public class JpaConfiguration {
                         ("spring.jpa.properties.hibernate.dialect")
         );
         return properties;
-    }
-
-    @Bean
-    @Autowired
-    public PlatformTransactionManager
-    transactionManager(EntityManagerFactory emf) {
-        JpaTransactionManager txManager = new JpaTransactionManager();
-        txManager.setEntityManagerFactory(emf);
-        return txManager;
     }
 }

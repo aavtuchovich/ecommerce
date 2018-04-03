@@ -5,10 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "Order_Details")
-public class OrderDetail implements Serializable {
-
-    private static final long serialVersionUID = 7550745928843183535L;
-
+public class OrderDetail {
     @Id
     @Column(name = "ID", length = 50, nullable = false)
     private String id;
@@ -32,9 +29,6 @@ public class OrderDetail implements Serializable {
     @Column(name = "Amount", nullable = false)
     private double amount;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public String getId() {
         return id;

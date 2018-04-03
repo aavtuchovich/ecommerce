@@ -1,7 +1,6 @@
 package org.solteh.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 
@@ -10,103 +9,110 @@ import java.util.Date;
  * are confirmed by the WebUser, an Order is created.&nbsp;
  */
 @Entity
-@Table(name = "Orders", //
-        uniqueConstraints = { @UniqueConstraint(columnNames = "Order_Num") })
-public class Order implements Serializable {
+@Table(name = "Orders")
+public class Order {
+	@Id
+	@Column
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    private static final long serialVersionUID = -2576670215015463100L;
+	@Column(name = "Order_Date", nullable = false)
+	private Date orderDate;
 
-    @Id
-    @Column(name = "ID", length = 50)
-    private String id;
+	@Column(name = "Amount", nullable = false)
+	private double amount;
 
-    @Column(name = "Order_Date", nullable = false)
-    private Date orderDate;
+	@Column(name = "Customer_Name", length = 255, nullable = false)
+	private String customerName;
 
-    @Column(name = "Order_Num", nullable = false)
-    private int orderNum;
+	@Column(name = "Customer_Address", length = 255, nullable = false)
+	private String customerAddress;
 
-    @Column(name = "Amount", nullable = false)
-    private double amount;
+	@Column(name = "Customer_Email", length = 128, nullable = false)
+	private String customerEmail;
 
-    @Column(name = "Customer_Name", length = 255, nullable = false)
-    private String customerName;
+	@Column(name = "Customer_Phone", length = 128, nullable = false)
+	private String customerPhone;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ORDER_DETAILS_ID", nullable = false, //
+			foreignKey = @ForeignKey(name = "ORDER_DETAILS_FK"))
+	private OrderDetail details;
 
-    @Column(name = "Customer_Address", length = 255, nullable = false)
-    private String customerAddress;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_ID", nullable = false, //
+			foreignKey = @ForeignKey(name = "ORDER_USR_FK"))
+	private User user;
 
-    @Column(name = "Customer_Email", length = 128, nullable = false)
-    private String customerEmail;
+	public Date getOrderDate() {
+		return orderDate;
+	}
 
-    @Column(name = "Customer_Phone", length = 128, nullable = false)
-    private String customerPhone;
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
+	public double getAmount() {
+		return amount;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public String getCustomerName() {
+		return customerName;
+	}
 
-    public Date getOrderDate() {
-        return orderDate;
-    }
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
 
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
+	public String getCustomerAddress() {
+		return customerAddress;
+	}
 
-    public int getOrderNum() {
-        return orderNum;
-    }
+	public void setCustomerAddress(String customerAddress) {
+		this.customerAddress = customerAddress;
+	}
 
-    public void setOrderNum(int orderNum) {
-        this.orderNum = orderNum;
-    }
+	public String getCustomerEmail() {
+		return customerEmail;
+	}
 
-    public double getAmount() {
-        return amount;
-    }
+	public void setCustomerEmail(String customerEmail) {
+		this.customerEmail = customerEmail;
+	}
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+	public String getCustomerPhone() {
+		return customerPhone;
+	}
 
-    public String getCustomerName() {
-        return customerName;
-    }
+	public void setCustomerPhone(String customerPhone) {
+		this.customerPhone = customerPhone;
+	}
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
+	public OrderDetail getDetails() {
+		return details;
+	}
 
-    public String getCustomerAddress() {
-        return customerAddress;
-    }
+	public void setDetails(OrderDetail details) {
+		this.details = details;
+	}
 
-    public void setCustomerAddress(String customerAddress) {
-        this.customerAddress = customerAddress;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getCustomerEmail() {
-        return customerEmail;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public String getCustomerPhone() {
-        return customerPhone;
-    }
-
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 }
 

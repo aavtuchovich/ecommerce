@@ -38,7 +38,7 @@ public class ProductFormValidator implements Validator {
             if (code.matches("\\s+")) {
                 errors.rejectValue("code", "Pattern.productForm.code");
             } else if (productForm.isNewProduct()) {
-                Product product = productRepository.findProduct(code);
+                Product product = productRepository.findByCode(code);
                 if (product != null) {
                     errors.rejectValue("code", "Duplicate.productForm.code");
                 }

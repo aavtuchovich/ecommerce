@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         // Requires login with role ROLE_EMPLOYEE or ROLE_MANAGER.
         // If not, it will redirect to /admin/login.
-        http.authorizeRequests().antMatchers("/admin/orderList", "/admin/order", "/admin/accountInfo")//
+        http.authorizeRequests().antMatchers("/orders", "/order", "/profile")//
                 .access("hasAnyRole('ROLE_EMPLOYEE', 'ROLE_MANAGER')");
 
         // Pages only for MANAGER
@@ -61,15 +61,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 //
                 .loginProcessingUrl("/j_spring_security_check") // Submit URL
-                .loginPage("/admin/login")//
+                .loginPage("/login")//
                 .defaultSuccessUrl("/")//
-                .failureUrl("/admin/login?error=true")//
+                .failureUrl("/login?error=true")//
                 .usernameParameter("userName")//
                 .passwordParameter("password")
 
                 // Configuration for the Logout page.
                 // (After logout, go to home page)
-                .and().logout().logoutUrl("/admin/logout").logoutSuccessUrl("/");
+                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/");
 
     }
 }
