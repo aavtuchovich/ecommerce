@@ -7,6 +7,11 @@ public class CartInfo {
 
     private final List<CartLineInfo> cartLines = new ArrayList<>();
 
+    private String name;
+    private String phone;
+    private String email;
+    private String address;
+
     public List<CartLineInfo> getCartLines() {
         return this.cartLines;
     }
@@ -84,5 +89,37 @@ public class CartInfo {
             }
         }
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String lastname) {
+        this.name = lastname;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

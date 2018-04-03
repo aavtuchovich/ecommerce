@@ -11,11 +11,11 @@
 <div class="container">
     <div class="page-title">Подтверждение заказа</div>
     <div class="customer-info-container">
-        <h3>Информация о заказчике:</h3>
+        <h3>Информация о заказе:</h3>
 
         <h3>Обзор корзины:</h3>
         <ul>
-            <li>Кол-во: <span th:utext="${myCart.quantityTotal}"></span></li>
+            <li>Кол-во: <span th:utext="${myCart.getQuantityTotal()}"></span></li>
             <li>Сумма:
                 <span class="total"
                       th:utext="${#numbers.formatDecimal(myCart.amountTotal,3,2,'COMMA')}">
@@ -40,17 +40,17 @@
             <ul>
                 <li>
                     <img class="product-image"
-                         th:src="@{|/productImage?code=${cartLineInfo.productInfo.code}|}"/>
+                         th:src="@{|/productImage?code=${cartLineInfo.product.code}|}"/>
                 </li>
                 <li>
-                    Код: <span th:utext="${cartLineInfo.productInfo.code}"></span>
+                    Код: <span th:utext="${cartLineInfo.product.code}"></span>
                     <input
-                            type="hidden" name="code" th:value="${cartLineInfo.productInfo.code}"/>
+                            type="hidden" name="code" th:value="${cartLineInfo.product.code}"/>
                 </li>
-                <li>Название: <span th:utext="${cartLineInfo.productInfo.name}"></span></li>
+                <li>Название: <span th:utext="${cartLineInfo.product.name}"></span></li>
                 <li>Цена:
                     <span class="price"
-                          th:utext="${#numbers.formatDecimal(cartLineInfo.productInfo.price,3,2,'COMMA')}">
+                          th:utext="${#numbers.formatDecimal(cartLineInfo.product.price,3,2,'COMMA')}">
                   </span>
                 </li>
                 <li>Кол-во: <span th:utext="${cartLineInfo.quantity}"></span></li>
