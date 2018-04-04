@@ -1,15 +1,15 @@
 package org.solteh.repository;
 
-import org.solteh.model.Product;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.solteh.model.*;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.*;
 
-import java.util.List;
+import java.util.*;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Product findByCode(String code);
+	Product findByCode(String code);
 
-    @Override
-    List<Product> findAll();
+	@Override
+	List<Product> findAll();
 }

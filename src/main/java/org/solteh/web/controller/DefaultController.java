@@ -41,7 +41,7 @@ public class DefaultController {
     }
 
     @GetMapping("/contacts")
-    public String getContactsPage(Model model) {
+    public String getContactsPage() {
         return "contact";
     }
 
