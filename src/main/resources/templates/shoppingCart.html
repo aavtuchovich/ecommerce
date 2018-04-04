@@ -14,50 +14,87 @@
         <h2>Нету товаров в корзине</h2>
         <a th:href="@{/products}">Продолжить покупки</a>
     </th:block>
-
     <th:block th:if="${cartForm != null && cartForm.cartLines != null && !cartForm.cartLines.empty}">
-        <!--/*@thymesVar id="cartForm" type="org.solteh.web.controller.DefaultController"*/-->
         <form method="POST" th:object="${cartForm}" th:action="@{/shoppingCart}">
-            <div class="product-preview-container" th:each="cartLineInfo, varStatus : ${cartForm.getCartLines()}">
-                <ul>
-                    <li><img class="product-image"
-                             th:src="@{|/productImage?code=${cartLineInfo.product.code}|}"/></li>
-                    <li>Код товара:
-                        <span th:utext="${cartLineInfo.product.code}"></span>
-                        <input type="hidden"
-                               th:name="|cartLines[${varStatus.index}].product.code|"
-                               th:value="${cartLineInfo.product.code}"/>
-                    </li>
-                    <li>Название продукта: <span th:utext="${cartLineInfo.product.name}"></span></li>
-                    <li>Цена:
-                        <span class="price"
-                              th:utext="${#numbers.formatDecimal(cartLineInfo.product.price,3,2,'COMMA')}">
-                        </span>
-                    </li>
-                    <li>Количество:
-                        <input
-                                th:name="|cartLines[${varStatus.index}].quantity|"
-                                th:value="${cartLineInfo.quantity}"/>
-                    </li>
-                    <li>Стоимость:
-                        <span class="subtotal"
-                              th:utext="${#numbers.formatDecimal(cartLineInfo.amount,3,2,'COMMA')}">
-                        </span>
-                    </li>
-                    <li>
-                        <a th:href="@{|/shoppingCartRemoveProduct?code=${cartLineInfo.getProduct().getCode()}|}">
-                            Удалить товар
-                        </a>
-                    </li>
-                </ul>
-            </div>
 
-            <div style="clear: both"></div>
-            <input class="button-update-sc" type="submit" value="Обновить количество"/>
-            <a class="navi-item"
-               th:href="@{/shoppingCartConfirmation}">ОФормить заказ</a>
-            <a class="navi-item"
-               th:href="@{/products}">Продолжить покупки</a>
+            <div class="row">
+                <div class="col-sm-12 col-md-10 col-md-offset-1">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Продукт</th>
+                            <th>Количество</th>
+                            <th class="text-center">Цена</th>
+                            <th class="text-center">Сумма</th>
+                            <th> </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <div th:each="cartLineInfo, varStatus : ${cartForm.getCartLines()}">
+                            <tr>
+                                <td class="col-sm-8 col-md-6">
+                                    <div class="media">
+                                        <a class="thumbnail pull-left" href="#">
+                                            <img class="media-object"
+                                                 th:src="@{|/productImage?code=${cartLineInfo.product.code}|}"
+                                                 style="width: 72px; height: 72px;"> </a>
+                                        <div class="media-body" style="padding-left: 5%;">
+                                            <h4 class="media-heading"
+                                                th:utext="${cartLineInfo.product.name}"></h4>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="col-sm-1 col-md-1" style="text-align: center">
+                                    <input class="form-control"
+                                           th:name="|cartLines[${varStatus.index}].quantity|"
+                                           th:value="${cartLineInfo.quantity}"/>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong
+                                        th:utext="${#numbers.formatDecimal(cartLineInfo.product.price,3,2,'COMMA')}">$1.11</strong>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong
+                                        th:utext="${#numbers.formatDecimal(cartLineInfo.getAmount(),3,2,'COMMA')}">$11.11</strong>
+                                </td>
+                                <td class="col-sm-1 col-md-1">
+                                    <a class="btn btn-danger"
+                                       th:href="@{|/shoppingCartRemoveProduct?code=${cartLineInfo.getProduct().getCode()}|}">
+                                        <span class="glyphicon glyphicon-remove"></span>Удалить
+                                    </a>
+                                </td>
+                            </tr>
+                        </div>
+                        <tr>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td><h3>Стоимость</h3></td>
+                            <td class="text-right"><h3><strong
+                                    th:utext="${#numbers.formatDecimal(cartForm.getAmountTotal(),3,2,'COMMA')}">$31.53</strong>
+                            </h3></td>
+                        </tr>
+                        <tr>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>
+                                <button type="submit" class="btn btn-info">
+                                    <span class="glyphicon glyphicon-refresh"></span> Обновить количество
+                                </button>
+                            </td>
+                            <td>
+                                <a class="btn btn-default" th:href="@{/products}">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span> Продолжить покупки
+                                </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-success" th:href="@{/shoppingCartConfirmation}">
+                                    Оформить заказ <span class="glyphicon glyphicon-play"></span>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </form>
     </th:block>
     <br><br>

@@ -14,7 +14,7 @@
 		<th:block th:if="${#session != null && #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}">
 			<div th:if="${#request.getParameter('error') == 'true'}" style="color: red; margin: 10px 0px;">
 				Ошибка авторизации!!!<br/> Причина :
-				<span th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}"></span>
+				<span class="error-message" th:utext="${error}"></span>
 			</div>
 		</th:block>
 
@@ -37,8 +37,6 @@
 				</tr>
 			</table>
 		</form>
-
-		<span class="error-message" th:utext="${error}"></span>
 	</div>
 	<br><br>
 </div>

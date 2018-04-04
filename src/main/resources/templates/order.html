@@ -8,42 +8,42 @@
 
 
 <div class="container">
-	<div class="page-title">Информация о заказе</div>
+    <div class="page-title">Информация о заказе</div>
 
-	<div class="customer-info-container">
-		<h3>Заказчик:</h3>
-		<ul>
-			<li>Имя: <span th:utext="${order.getCustomerName()}"></span></li>
-			<li>Email: <span th:utext="${order.getCustomerEmail()}"></span></li>
-			<li>Телефон: <span th:utext="${order.getCustomerPhone()}"></span></li>
-			<li>Адрес: <span th:utext="${order.getCustomerAddress()}"></span></li>
-		</ul>
+    <div class="customer-info-container">
+        <h3>Заказчик:</h3>
+        <ul>
+            <li>Имя: <span th:utext="${order.getUser().getFio()}"></span></li>
+            <li>Email: <span th:utext="${order.getUser().getEmail()}"></span></li>
+            <li>Телефон: <span th:utext="${order.getUser().getPhone()}"></span></li>
+            <li>Адрес: <span th:utext="${order.getUser().getAddress()}"></span></li>
+        </ul>
 
-		<ul>
-			<li>
-				<h3>Сумма заказа:
-					<span class="total" th:utext="${#numbers.formatDecimal(order.getAmount(),3,2,'COMMA')}"></span>
-				</h3>
-			</li>
-		</ul>
-	</div>
-	<br/>
-	<table border="1" style="width:100%">
-		<tr>
-			<th>Артикул</th>
-			<th>Название</th>
-			<th>Количество</th>
-			<th>Цена</th>
-			<th>Сумма</th>
-		</tr>
-		<tr th:each="orderDetailInfo : ${order.getDetails().getProducts()}">
-			<td th:utext="${orderDetailInfo.getKey().getCode()}"></td>
-			<td th:utext="${orderDetailInfo.getKey().getName()}"></td>
-			<td th:utext="${orderDetailInfo.getValue()}"></td>
-			<td th:utext="${#numbers.formatDecimal(orderDetailInfo.getKey().getPrice(),3,2,'COMMA')}"></td>
-			<td th:utext="${#numbers.formatDecimal((orderDetailInfo.getKey().getPrice() * orderDetailInfo.getValue()),3,2,'COMMA')}"></td>
-		</tr>
-	</table>
+        <ul>
+            <li>
+                <h3>Сумма заказа:
+                    <span class="total" th:utext="${#numbers.formatDecimal(order.getAmount(),3,2,'COMMA')}"></span>
+                </h3>
+            </li>
+        </ul>
+    </div>
+    <br/>
+    <table border="1" style="width:100%">
+        <tr>
+            <th>Артикул</th>
+            <th>Название</th>
+            <th>Количество</th>
+            <th>Цена</th>
+            <th>Сумма</th>
+        </tr>
+        <tr th:each="orderDetailInfo : ${order.getDetails().getProducts()}">
+            <td th:utext="${orderDetailInfo.getKey().getCode()}"></td>
+            <td th:utext="${orderDetailInfo.getKey().getName()}"></td>
+            <td th:utext="${orderDetailInfo.getValue()}"></td>
+            <td th:utext="${#numbers.formatDecimal(orderDetailInfo.getKey().getPrice(),3,2,'COMMA')}"></td>
+            <td th:utext="${#numbers.formatDecimal((orderDetailInfo.getKey().getPrice() * orderDetailInfo.getValue()),3,2,'COMMA')}"></td>
+        </tr>
+    </table>
 </div>
 
 <br><br>

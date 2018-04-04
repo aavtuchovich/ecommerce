@@ -25,89 +25,105 @@ import java.util.List;
 @Controller
 public class UserController {
 
-    private final OrderRepository orderRepository;
+	private final OrderRepository orderRepository;
 
-    private final ProductRepository productRepository;
+	private final ProductRepository productRepository;
 
-    private final UserRepository userRepository;
+	private final UserRepository userRepository;
 
-    @Autowired
-    public UserController(OrderRepository orderRepository, ProductRepository productRepository, UserRepository userRepository) {
-        this.orderRepository = orderRepository;
-        this.productRepository = productRepository;
-        this.userRepository = userRepository;
-    }
+	@Autowired
+	public UserController(OrderRepository orderRepository, ProductRepository productRepository, UserRepository userRepository) {
+		this.orderRepository = orderRepository;
+		this.productRepository = productRepository;
+		this.userRepository = userRepository;
+	}
 
 
-    @GetMapping(value = {"/profile"})
-    public String accountInfo(Model model) {
+	@GetMapping(value = {"/profile"})
+	public String accountInfo(Model model, @RequestParam(value = "error", defaultValue = "false") boolean error) {
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		model.addAttribute("user", userRepository.findByUserName(userDetails.getUsername()));
+		model.addAttribute("error", error);
+		return "accountInfo";
+	}
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("userDetails", userDetails);
-        return "accountInfo";
-    }
+	@PostMapping(value = "/profile")
+	public String saveUser(@ModelAttribute("user") User remoteUser) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String name = auth.getName(); //get logged in username
+		User user = userRepository.findByUserName(name);
+		user.setFio(remoteUser.getFio());
+		user.setAddress(remoteUser.getAddress());
+		user.setEmail(remoteUser.getEmail());
+		user.setPhone(remoteUser.getPhone());
+		userRepository.save(user);
+		return "redirect:/shoppingCart";
+	}
 
-    @GetMapping(value = {"/user/orders"})
-    public String orderList(Model model, //
-                            @RequestParam(value = "page", defaultValue = "1") String pageStr) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName(); //get logged in username
-        User user = userRepository.findByUserName(name);
-        List<Order> orders = orderRepository.findOrdersByUserId(user.getId());
-        model.addAttribute("orders", orders);
-        return "orderList";
-    }
+	@GetMapping(value = {"/user/orders"})
+	public String orderList(Model model, //
+	                        @RequestParam(value = "page", defaultValue = "1") String pageStr) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String name = auth.getName(); //get logged in username
+		User user = userRepository.findByUserName(name);
+		if (user == null) {
+			return "/403";
+		}
+		List<Order> orders = orderRepository.findOrdersByUserId(user.getId());
+		model.addAttribute("orders", orders);
+		return "orderList";
+	}
 
-    // GET: Show product.
-    @GetMapping(value = {"/admin/product"})
-    public String product(Model model, @RequestParam(value = "code", defaultValue = "") String code) {
-        Product product = null;
-        if (code != null && code.length() > 0) {
-            product = productRepository.findByCode(code);
-        }
-        if (product != null) {
-            model.addAttribute("productForm", product);
-        } else {
-            model.addAttribute("productForm", new Product());
-        }
-        return "product";
-    }
+	// GET: Show product.
+	@GetMapping(value = {"/admin/product"})
+	public String product(Model model, @RequestParam(value = "code", defaultValue = "") String code) {
+		Product product = null;
+		if (code != null && code.length() > 0) {
+			product = productRepository.findByCode(code);
+		}
+		if (product != null) {
+			model.addAttribute("productForm", product);
+		} else {
+			model.addAttribute("productForm", new Product());
+		}
+		return "product";
+	}
 
-    // POST: Save product
-    @PostMapping(value = {"/admin/product"})
-    public String productSave(Model model, //
-                              @ModelAttribute("productForm") Product product, //
-                              BindingResult result, //
-                              final RedirectAttributes redirectAttributes) {
+	// POST: Save product
+	@PostMapping(value = {"/admin/product"})
+	public String productSave(Model model, //
+	                          @ModelAttribute("productForm") Product product, //
+	                          BindingResult result, //
+	                          final RedirectAttributes redirectAttributes) {
 
-        if (result.hasErrors()) {
-            return "product";
-        }
-        try {
-            productRepository.save(new Product());
-        } catch (Exception e) {
-            Throwable rootCause = ExceptionUtils.getRootCause(e);
-            String message = rootCause.getMessage();
-            model.addAttribute("errorMessage", message);
-            // Show product form.
-            return "product";
-        }
+		if (result.hasErrors()) {
+			return "product";
+		}
+		try {
+			productRepository.save(new Product());
+		} catch (Exception e) {
+			Throwable rootCause = ExceptionUtils.getRootCause(e);
+			String message = rootCause.getMessage();
+			model.addAttribute("errorMessage", message);
+			// Show product form.
+			return "product";
+		}
 
-        return "redirect:/products";
-    }
+		return "redirect:/products";
+	}
 
-    @GetMapping(value = {"/user/order"})
-    public String orderView(Model model, @RequestParam("orderId") Long orderId) {
-        Order order = null;
-        if (orderId != null) {
-            order = this.orderRepository.getOne(orderId);
-        }
-        if (order == null) {
-            return "redirect:/user/orderList";
-        }
+	@GetMapping(value = {"/user/order"})
+	public String orderView(Model model, @RequestParam("orderId") Long orderId) {
+		Order order = null;
+		if (orderId != null) {
+			order = this.orderRepository.getOne(orderId);
+		}
+		if (order == null) {
+			return "redirect:/user/orderList";
+		}
 
-        model.addAttribute("order", order);
+		model.addAttribute("order", order);
 
-        return "order";
-    }
+		return "order";
+	}
 }

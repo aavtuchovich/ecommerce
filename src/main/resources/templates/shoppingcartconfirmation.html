@@ -6,58 +6,61 @@
 <div th:replace="fragments/webstore :: webstore"></div>
 <nav th:replace="fragments/nav :: nav"></nav>
 
-
 <div class="container">
-	<div class="page-title">Подтверждение заказа</div>
-	<div class="customer-info-container">
-		<h3>Информация о заказе:</h3>
-
-		<h3>Обзор корзины:</h3>
-		<ul>
-			<li>Кол-во: <!--/*@thymesVar id="cartInfo" type="org.solteh.web.controller.ShoppingCartController"*/-->
-			    <!--/*@thymesVar id="getQuantityTotal" type="org.solteh.model.CartInfo"*/-->
-				<span th:utext="${cartInfo.getQuantityTotal()}"></span></li>
-			<li>Сумма:
-				<span class="total" th:utext="${#numbers.formatDecimal(cartInfo.getAmountTotal(),3,2,'COMMA')}">
+    <div class="page-title">Подтверждение заказа</div>
+    <div class="customer-info-container">
+        <h3>Информация о заказе:</h3>
+        <ul><!--/*@thymesVar id="cartInfo" type="org.solteh.web.controller.ShoppingCartController"*/-->
+            <li>Имя: <span th:utext="${cartInfo.name}"></span></li>
+            <li>Email: <span th:utext="${cartInfo.email}"></span></li>
+            <li>Телефон: <span th:utext="${cartInfo.phone}"></span></li>
+            <li>Адрес: <span th:utext="${cartInfo.address}"></span></li>
+        </ul>
+        <h3>Обзор корзины:</h3>
+        <ul>
+            <li>Кол-во:
+                <span th:utext="${cartInfo.getQuantityTotal()}"></span></li>
+            <li>Сумма:
+                <span class="total" th:utext="${#numbers.formatDecimal(cartInfo.getAmountTotal(),3,2,'COMMA')}">
                </span>
-			</li>
-		</ul>
-	</div>
-	<form method="POST" th:action="@{/shoppingCartConfirmation}">
-		<!-- Edit Cart -->
-		<a class="navi-item" th:href="@{/shoppingCart}">
-			Изменить заказ
-		</a>
-		<!-- Edit Customer Info -->
-		<a class="navi-item" th:href="@{/shoppingCartCustomer}">
-			Изменить информацию заказчика
-		</a>
-		<!-- Send/Save -->
-		<input type="submit" value="Сохранить" class="button-send-sc"/>
-	</form>
-	<div class="container">
-		<div class="product-preview-container" th:each="cartLineInfo : ${cartInfo.cartLines}">
-			<ul>
-				<li>
-					<img class="product-image" th:src="@{|/productImage?code=${cartLineInfo.product.code}|}"/>
-				</li>
-				<li>
-					Код: <span th:utext="${cartLineInfo.product.code}"></span>
-					<input type="hidden" name="code" th:value="${cartLineInfo.product.code}"/>
-				</li>
-				<li>Название: <span th:utext="${cartLineInfo.product.name}"></span></li>
-				<li>Цена:
-					<span class="price" th:utext="${#numbers.formatDecimal(cartLineInfo.product.price,3,2,'COMMA')}">
+            </li>
+        </ul>
+    </div>
+    <form method="POST" th:action="@{/shoppingCartConfirmation}">
+        <!-- Edit Cart -->
+        <a class="btn btn-primary block full-width m-b" th:href="@{/shoppingCart}">
+            Изменить заказ
+        </a>
+        <!-- Edit Customer Info -->
+        <a class="btn btn-primary block full-width m-b" th:href="@{/profile}">
+            Изменить информацию заказчика
+        </a>
+        <!-- Send/Save -->
+        <input type="submit" value="Сохранить" class="btn btn-primary block full-width m-b"/>
+    </form>
+    <div class="container">
+        <div class="product-preview-container" th:each="cartLineInfo : ${cartInfo.cartLines}">
+            <ul>
+                <li>
+                    <img class="product-image" th:src="@{|/productImage?code=${cartLineInfo.product.code}|}"/>
+                </li>
+                <li>
+                    Код: <span th:utext="${cartLineInfo.product.code}"></span>
+                    <input type="hidden" name="code" th:value="${cartLineInfo.product.code}"/>
+                </li>
+                <li>Название: <span th:utext="${cartLineInfo.product.name}"></span></li>
+                <li>Цена:
+                    <span class="price" th:utext="${#numbers.formatDecimal(cartLineInfo.product.price,3,2,'COMMA')}">
                   </span>
-				</li>
-				<li>Кол-во: <span th:utext="${cartLineInfo.quantity}"></span></li>
-				<li>Сумма:
-					<span class="subtotal" th:utext="${#numbers.formatDecimal(cartLineInfo.amount,3,2,'COMMA')}">
+                </li>
+                <li>Кол-во: <span th:utext="${cartLineInfo.quantity}"></span></li>
+                <li>Сумма:
+                    <span class="subtotal" th:utext="${#numbers.formatDecimal(cartLineInfo.amount,3,2,'COMMA')}">
                   </span>
-				</li>
-			</ul>
-		</div>
-	</div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <br><br>
