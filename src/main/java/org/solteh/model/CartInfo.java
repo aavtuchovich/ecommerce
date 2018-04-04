@@ -6,6 +6,7 @@ import java.util.List;
 public class CartInfo {
 
     private final List<CartLineInfo> cartLines = new ArrayList<>();
+    private long orderNum;
 
     private String name;
     private String phone;
@@ -89,6 +90,14 @@ public class CartInfo {
             }
         }
 
+    }
+
+    public long getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(long orderNum) {
+        this.orderNum = orderNum;
     }
 
     public String getName() {

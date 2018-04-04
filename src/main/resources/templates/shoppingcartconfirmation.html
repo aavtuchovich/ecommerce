@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head"></head>
 <body>
 
@@ -9,59 +8,56 @@
 
 
 <div class="container">
-    <div class="page-title">Подтверждение заказа</div>
-    <div class="customer-info-container">
-        <h3>Информация о заказе:</h3>
+	<div class="page-title">Подтверждение заказа</div>
+	<div class="customer-info-container">
+		<h3>Информация о заказе:</h3>
 
-        <h3>Обзор корзины:</h3>
-        <ul>
-            <li>Кол-во: <span th:utext="${myCart.getQuantityTotal()}"></span></li>
-            <li>Сумма:
-                <span class="total"
-                      th:utext="${#numbers.formatDecimal(myCart.amountTotal,3,2,'COMMA')}">
+		<h3>Обзор корзины:</h3>
+		<ul>
+			<li>Кол-во: <!--/*@thymesVar id="cartInfo" type="org.solteh.web.controller.ShoppingCartController"*/-->
+			    <!--/*@thymesVar id="getQuantityTotal" type="org.solteh.model.CartInfo"*/-->
+				<span th:utext="${cartInfo.getQuantityTotal()}"></span></li>
+			<li>Сумма:
+				<span class="total" th:utext="${#numbers.formatDecimal(cartInfo.getAmountTotal(),3,2,'COMMA')}">
                </span>
-            </li>
-        </ul>
-    </div>
-    <form method="POST" th:action="@{/shoppingCartConfirmation}">
-        <!-- Edit Cart -->
-        <a class="navi-item" th:href="@{/shoppingCart}">
-            Изменить заказ
-        </a>
-        <!-- Edit Customer Info -->
-        <a class="navi-item" th:href="@{/shoppingCartCustomer}">
-           Изменить информацию заказчика
-        </a>
-        <!-- Send/Save -->
-        <input type="submit" value="Сохранить" class="button-send-sc"/>
-    </form>
-    <div class="container">
-        <div class="product-preview-container" th:each="cartLineInfo : ${myCart.cartLines}">
-            <ul>
-                <li>
-                    <img class="product-image"
-                         th:src="@{|/productImage?code=${cartLineInfo.product.code}|}"/>
-                </li>
-                <li>
-                    Код: <span th:utext="${cartLineInfo.product.code}"></span>
-                    <input
-                            type="hidden" name="code" th:value="${cartLineInfo.product.code}"/>
-                </li>
-                <li>Название: <span th:utext="${cartLineInfo.product.name}"></span></li>
-                <li>Цена:
-                    <span class="price"
-                          th:utext="${#numbers.formatDecimal(cartLineInfo.product.price,3,2,'COMMA')}">
+			</li>
+		</ul>
+	</div>
+	<form method="POST" th:action="@{/shoppingCartConfirmation}">
+		<!-- Edit Cart -->
+		<a class="navi-item" th:href="@{/shoppingCart}">
+			Изменить заказ
+		</a>
+		<!-- Edit Customer Info -->
+		<a class="navi-item" th:href="@{/shoppingCartCustomer}">
+			Изменить информацию заказчика
+		</a>
+		<!-- Send/Save -->
+		<input type="submit" value="Сохранить" class="button-send-sc"/>
+	</form>
+	<div class="container">
+		<div class="product-preview-container" th:each="cartLineInfo : ${cartInfo.cartLines}">
+			<ul>
+				<li>
+					<img class="product-image" th:src="@{|/productImage?code=${cartLineInfo.product.code}|}"/>
+				</li>
+				<li>
+					Код: <span th:utext="${cartLineInfo.product.code}"></span>
+					<input type="hidden" name="code" th:value="${cartLineInfo.product.code}"/>
+				</li>
+				<li>Название: <span th:utext="${cartLineInfo.product.name}"></span></li>
+				<li>Цена:
+					<span class="price" th:utext="${#numbers.formatDecimal(cartLineInfo.product.price,3,2,'COMMA')}">
                   </span>
-                </li>
-                <li>Кол-во: <span th:utext="${cartLineInfo.quantity}"></span></li>
-                <li>Сумма:
-                    <span class="subtotal"
-                          th:utext="${#numbers.formatDecimal(cartLineInfo.amount,3,2,'COMMA')}">
+				</li>
+				<li>Кол-во: <span th:utext="${cartLineInfo.quantity}"></span></li>
+				<li>Сумма:
+					<span class="subtotal" th:utext="${#numbers.formatDecimal(cartLineInfo.amount,3,2,'COMMA')}">
                   </span>
-                </li>
-            </ul>
-        </div>
-    </div>
+				</li>
+			</ul>
+		</div>
+	</div>
 </div>
 
 <br><br>

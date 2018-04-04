@@ -1,57 +1,46 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head"></head>
 <body>
 
 <div th:replace="fragments/webstore :: webstore"></div>
 <nav th:replace="fragments/nav :: nav"></nav>
 <div th:fragment="products" class="container center-block">
-    <div class="page-title">Авторизация</div>
+	<h3>Авторизация</h3>
 
-    <div class="login-container">
-        <h3>Введите имя пользователя и пароль</h3>
-        <br>
-        <!-- /login?error=true -->
-        <th:block th:if="${#session != null && #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}">
-            <div th:if="${#request.getParameter('error') == 'true'}"
-                 style="color: red; margin: 10px 0px;">
-                Ошибка авторизации!!!<br/> Причина :
-                <span th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}"></span>
-            </div>
-        </th:block>
+	<div class="login-container">
+		<h4>Введите имя пользователя и пароль</h4>
+		<!-- /login?error=true -->
+		<th:block th:if="${#session != null && #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}">
+			<div th:if="${#request.getParameter('error') == 'true'}" style="color: red; margin: 10px 0px;">
+				Ошибка авторизации!!!<br/> Причина :
+				<span th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}"></span>
+			</div>
+		</th:block>
 
-        <form method="POST" th:action="@{/j_spring_security_check}">
-            <table>
-                <tr>
-                    <td>Логин *</td>
-                    <td><input name="userName"/></td>
-                </tr>
-                <tr>
-                    <td>Пароль *</td>
-                    <td><input type="password" name="password"/></td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>
-                        <input type="submit" value="Авторизация"/>
-                        <input type="reset" value="Сброс"/>
-                    </td>
-                </tr>
-            </table>
-        </form>
+		<form method="POST" th:action="@{/j_spring_security_check}">
+			<table>
+				<tr>
+					<td>Логин *</td>
+					<td><input name="userName"/></td>
+				</tr>
+				<tr>
+					<td>Пароль *</td>
+					<td><input type="password" name="password"/></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>
+						<input type="submit" value="Авторизация"/>
+						<input type="reset" value="Сброс"/>
+					</td>
+				</tr>
+			</table>
+		</form>
 
-        <span class="error-message" th:utext="${error}"></span>
-    </div>
-
-    <div style="text-align:left">
-        <h3>Логин/Пароль(для теста):</h3>
-        <ul>
-            <li>employee1/123</li>
-            <li>manager1/123</li>
-        </ul>
-    </div>
-    <br><br>
+		<span class="error-message" th:utext="${error}"></span>
+	</div>
+	<br><br>
 </div>
 <footer th:replace="fragments/footer :: footer"></footer>
 </body>

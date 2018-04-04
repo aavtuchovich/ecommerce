@@ -22,16 +22,16 @@ public class Order {
     @Column(name = "Amount", nullable = false)
     private double amount;
 
-    @Column(name = "Customer_Name", nullable = false)
+    @Column(name = "Customer_Name")
     private String customerName;
 
-    @Column(name = "Customer_Address", nullable = false)
+    @Column(name = "Customer_Address")
     private String customerAddress;
 
-    @Column(name = "Customer_Email", length = 128, nullable = false)
+    @Column(name = "Customer_Email", length = 128)
     private String customerEmail;
 
-    @Column(name = "Customer_Phone", length = 128, nullable = false)
+    @Column(name = "Customer_Phone", length = 128)
     private String customerPhone;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ORDER_DETAILS_ID", nullable = false, //

@@ -1,79 +1,50 @@
 package org.solteh.model;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Table(name = "Order_Details")
 public class OrderDetail {
-    @Id
-    @Column(name = "ID", length = 50, nullable = false)
-    private String id;
+	@Id
+	@Column
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORDER_ID", nullable = false, //
-            foreignKey = @ForeignKey(name = "ORDER_DETAIL_ORD_FK"))
-    private Order order;
+	@JoinColumn(name = "PRODUCT_ID",
+			foreignKey = @ForeignKey(name = "ORDER_DETAIL_PROD_FK"))
+	@ElementCollection
+	private Map<Product, Long> products = new HashMap<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRODUCT_ID", nullable = false, //
-            foreignKey = @ForeignKey(name = "ORDER_DETAIL_PROD_FK"))
-    private Product product;
-
-    @Column(name = "Quanity", nullable = false)
-    private int quanity;
-
-    @Column(name = "Price", nullable = false)
-    private double price;
-
-    @Column(name = "Amount", nullable = false)
-    private double amount;
+	@Column(name = "Amount")
+	private double amount;
 
 
-    public String getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public Order getOrder() {
-        return order;
-    }
+	public double getAmount() {
+		return amount;
+	}
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
 
-    public Product getProduct() {
-        return product;
-    }
+	public Map<Product, Long> getProducts() {
+		return products;
+	}
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+	public void setProducts(Map<Product, Long> products) {
+		this.products = products;
+	}
 
-    public int getQuanity() {
-        return quanity;
-    }
-
-    public void setQuanity(int quanity) {
-        this.quanity = quanity;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+	public void addProduct(Product product, long quantity) {
+		this.products.put(product, quantity);
+	}
 }
