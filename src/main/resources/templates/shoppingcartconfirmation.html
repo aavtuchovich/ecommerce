@@ -7,60 +7,93 @@
 <nav th:replace="fragments/nav :: nav"></nav>
 
 <div class="container">
-    <div class="page-title">Подтверждение заказа</div>
-    <div class="customer-info-container">
-        <h3>Информация о заказе:</h3>
-        <ul><!--/*@thymesVar id="cartInfo" type="org.solteh.web.controller.ShoppingCartController"*/-->
-            <li>Имя: <span th:utext="${cartInfo.name}"></span></li>
-            <li>Email: <span th:utext="${cartInfo.email}"></span></li>
-            <li>Телефон: <span th:utext="${cartInfo.phone}"></span></li>
-            <li>Адрес: <span th:utext="${cartInfo.address}"></span></li>
-        </ul>
-        <h3>Обзор корзины:</h3>
-        <ul>
-            <li>Кол-во:
-                <span th:utext="${cartInfo.getQuantityTotal()}"></span></li>
-            <li>Сумма:
-                <span class="total" th:utext="${#numbers.formatDecimal(cartInfo.getAmountTotal(),3,2,'COMMA')}">
+	<div class="page-title">Подтверждение заказа</div>
+	<div class="customer-info-container">
+		<h3>Информация о заказе:</h3>
+		<ul><!--/*@thymesVar id="cartInfo" type="org.solteh.web.controller.ShoppingCartController"*/-->
+			<li>Имя: <span th:utext="${cartInfo.name}"></span></li>
+			<li>Email: <span th:utext="${cartInfo.email}"></span></li>
+			<li>Телефон: <span th:utext="${cartInfo.phone}"></span></li>
+			<li>Адрес: <span th:utext="${cartInfo.address}"></span></li>
+		</ul>
+		<h3>Обзор корзины:</h3>
+		<ul>
+			<li>Кол-во:
+				<span th:utext="${cartInfo.getQuantityTotal()}"></span></li>
+			<li>Сумма:
+				<span class="total" th:utext="${#numbers.formatDecimal(cartInfo.getAmountTotal(),3,2,'COMMA')}">
                </span>
-            </li>
-        </ul>
-    </div>
-    <form method="POST" th:action="@{/shoppingCartConfirmation}">
-        <!-- Edit Cart -->
-        <a class="btn btn-primary block full-width m-b" th:href="@{/shoppingCart}">
-            Изменить заказ
-        </a>
-        <!-- Edit Customer Info -->
-        <a class="btn btn-primary block full-width m-b" th:href="@{/profile}">
-            Изменить информацию заказчика
-        </a>
-        <!-- Send/Save -->
-        <input type="submit" value="Сохранить" class="btn btn-primary block full-width m-b"/>
-    </form>
-    <div class="container">
-        <div class="product-preview-container" th:each="cartLineInfo : ${cartInfo.cartLines}">
-            <ul>
-                <li>
-                    <img class="product-image" th:src="@{|/productImage?code=${cartLineInfo.product.code}|}"/>
-                </li>
-                <li>
-                    Код: <span th:utext="${cartLineInfo.product.code}"></span>
-                    <input type="hidden" name="code" th:value="${cartLineInfo.product.code}"/>
-                </li>
-                <li>Название: <span th:utext="${cartLineInfo.product.name}"></span></li>
-                <li>Цена:
-                    <span class="price" th:utext="${#numbers.formatDecimal(cartLineInfo.product.price,3,2,'COMMA')}">
-                  </span>
-                </li>
-                <li>Кол-во: <span th:utext="${cartLineInfo.quantity}"></span></li>
-                <li>Сумма:
-                    <span class="subtotal" th:utext="${#numbers.formatDecimal(cartLineInfo.amount,3,2,'COMMA')}">
-                  </span>
-                </li>
-            </ul>
-        </div>
-    </div>
+			</li>
+		</ul>
+	</div>
+	<form method="POST" th:action="@{/shoppingCartConfirmation}">
+		<!-- Edit Cart -->
+		<a class="btn btn-primary block full-width m-b" th:href="@{/shoppingCart}">
+			Изменить заказ
+		</a>
+		<!-- Edit Customer Info -->
+		<a class="btn btn-primary block full-width m-b" th:href="@{/profile}">
+			Изменить информацию заказчика
+		</a>
+		<!-- Send/Save -->
+		<input type="submit" value="Сохранить" class="btn btn-primary block full-width m-b"/>
+	</form>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-10 col-md-offset-1">
+				<table class="table table-hover">
+					<thead>
+					<tr>
+						<th>Продукт</th>
+						<th>Количество</th>
+						<th class="text-center">Цена</th>
+						<th class="text-center">Сумма</th>
+						<th> </th>
+					</tr>
+					</thead>
+					<tbody>
+					<span th:each="cartLineInfo, varStatus : ${cartInfo.getCartLines()}">
+                            <tr>
+                                <td class="col-sm-8 col-md-6">
+                                    <div class="media">
+                                        <a class="thumbnail pull-left" href="#">
+                                            <img class="media-object"
+                                                 th:src="@{|/productImage?code=${cartLineInfo.product.code}|}"
+                                                 style="width: 72px; height: 72px;"> </a>
+                                        <div class="media-body" style="padding-left: 5%;">
+                                            <h4 class="media-heading" th:utext="${cartLineInfo.product.name}"></h4>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="col-sm-1 col-md-1" style="text-align: center">
+                                   <span th:utext="${cartLineInfo.quantity}"></span>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong th:utext="${#numbers.formatDecimal(cartLineInfo.product.price,3,2,'COMMA')}">$1.11</strong>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong th:utext="${#numbers.formatDecimal(cartLineInfo.getAmount(),3,2,'COMMA')}">$11.11</strong>
+                                </td>
+                                <td class="col-sm-1 col-md-1">
+                                    <a class="btn btn-danger"
+                                       th:href="@{|/shoppingCartRemoveProduct?code=${cartLineInfo.getProduct().getCode()}|}">
+                                        <span class="glyphicon glyphicon-remove"></span>Удалить
+                                    </a>
+                                </td>
+                            </tr>
+                        </span>
+					<tr>
+						<td>  </td>
+						<td>  </td>
+						<td>  </td>
+						<td><h3>Стоимость</h3></td>
+						<td class="text-right"><h3>
+							<strong th:utext="${#numbers.formatDecimal(cartInfo.getAmountTotal(),3,2,'COMMA')}">$31.53</strong>
+						</h3></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 
 <br><br>

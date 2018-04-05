@@ -9,27 +9,27 @@
 
 
 <div class="container">
-    <div class="page-title">Order List</div>
+    <div class="page-title">Список заказов</div>
     <div>Всех заказов: <span th:utext="${orders.size()}"></span></div>
     <table border="1" style="width:100%">
         <tr>
-            <th>Order Num</th>
-            <th>Order Date</th>
-            <th>Customer Name</th>
-            <th>Customer Address</th>
-            <th>Customer Email</th>
-            <th>Amount</th>
-            <th>View</th>
+            <th>Номер</th>
+            <th>Дата</th>
+            <th>ФИО</th>
+            <th>Адрес</th>
+            <th>Email</th>
+            <th>Сумма</th>
+            <th>Просмотр</th>
         </tr>
         <tr th:each="order : ${orders}">
             <td th:utext="${order.id}"></td>
             <td th:utext="${#dates.format(order.orderDate,'dd-MM-yyyy HH:mm')}"></td>
-            <td th:utext="${order.customerName}"></td>
+            <td th:utext="${order.getCustomerName()}"></td>
             <td th:utext="${order.customerAddress}"></td>
             <td th:utext="${order.customerEmail}"></td>
             <td style="color:red;" th:utext="${#numbers.formatDecimal(order.amount,3,2,'COMMA')}">
             </td>
-            <td><a th:href="@{|/user/order?orderId=${order.id}|}">View</a></td>
+            <td><a th:href="@{|/user/order?orderId=${order.id}|}">Просмотр</a></td>
         </tr>
     </table>
    <!-- <div class="page-navigator" th:if="${paginationResult.totalPages > 1}">

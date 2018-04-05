@@ -1,28 +1,17 @@
 package org.solteh.web.controller;
 
-import org.solteh.model.CartInfo;
-import org.solteh.model.CartLineInfo;
-import org.solteh.model.Order;
-import org.solteh.model.OrderDetail;
-import org.solteh.model.Product;
-import org.solteh.model.User;
-import org.solteh.repository.OrderDetailRepository;
-import org.solteh.repository.OrderRepository;
-import org.solteh.repository.ProductRepository;
-import org.solteh.repository.UserRepository;
-import org.solteh.utils.Utils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.solteh.model.*;
+import org.solteh.repository.*;
+import org.solteh.utils.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.core.*;
+import org.springframework.security.core.context.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import javax.servlet.http.*;
+import java.util.*;
 
 @Controller
 public class ShoppingCartController {
@@ -73,17 +62,6 @@ public class ShoppingCartController {
 		return "redirect:/shoppingCart";
 	}
 
-	// POST: Update quantity for product in cart
-	@PostMapping(value = {"/shoppingCart"})
-	public String shoppingCartUpdateQty(HttpServletRequest request, //
-	                                    Model model, //
-	                                    @ModelAttribute("cartForm") CartInfo cartForm) {
-
-		CartInfo cartInfo = Utils.getCartInSession(request);
-		cartInfo.updateQuantity(cartForm);
-
-		return "redirect:/shoppingCart";
-	}
 
 	// GET: Show cart.
 	@GetMapping(value = {"/shoppingCart"})
@@ -92,6 +70,20 @@ public class ShoppingCartController {
 
 		model.addAttribute("cartForm", myCart);
 		return "shoppingCart";
+	}
+
+	// POST: Update quantity for product in cart
+	@PostMapping(value = {"/shoppingCart"})
+	public String shoppingCartUpdateQty(HttpServletRequest request,
+	                                    @ModelAttribute("cartForm") CartInfo cartForm) {
+
+		CartInfo cartInfo = Utils.getCartInSession(request);
+		if (cartInfo.getCartLines().isEmpty()) {
+			return "redirect:/shoppingCart";
+		}
+		cartInfo.updateQuantity(cartForm);
+
+		return "redirect:/shoppingCart";
 	}
 
 	// GET: Show information to confirm.
@@ -140,10 +132,10 @@ public class ShoppingCartController {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			String name = auth.getName(); //get logged in username
 			order.setUser(userRepository.findByUserName(name));
-			order.setCustomerAddress("address");
-			order.setCustomerEmail("email");
-			order.setCustomerName("name");
-			order.setCustomerPhone("phone");
+			order.setCustomerAddress(order.getUser().getAddress());
+			order.setCustomerEmail(order.getUser().getEmail());
+			order.setCustomerName(order.getUser().getFio());
+			order.setCustomerPhone(order.getUser().getPhone());
 			orderRepository.save(order);
 			cart.setOrderNum(order.getId());
 		} catch (Exception e) {

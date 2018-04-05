@@ -8,42 +8,66 @@
 
 
 <div class="container">
-    <div class="page-title">Информация о заказе</div>
+	<h1>Информация о заказе</h1>
 
-    <div class="customer-info-container">
-        <h3>Заказчик:</h3>
-        <ul>
-            <li>Имя: <span th:utext="${order.getUser().getFio()}"></span></li>
-            <li>Email: <span th:utext="${order.getUser().getEmail()}"></span></li>
-            <li>Телефон: <span th:utext="${order.getUser().getPhone()}"></span></li>
-            <li>Адрес: <span th:utext="${order.getUser().getAddress()}"></span></li>
-        </ul>
+	<div class="customer-info-container">
+		<h3>Заказчик:</h3>
+		<ul>
+			<li>Имя: <span th:utext="${order.getUser().getFio()}"></span></li>
+			<li>Email: <span th:utext="${order.getUser().getEmail()}"></span></li>
+			<li>Телефон: <span th:utext="${order.getUser().getPhone()}"></span></li>
+			<li>Адрес: <span th:utext="${order.getUser().getAddress()}"></span></li>
+		</ul>
 
-        <ul>
-            <li>
-                <h3>Сумма заказа:
-                    <span class="total" th:utext="${#numbers.formatDecimal(order.getAmount(),3,2,'COMMA')}"></span>
-                </h3>
-            </li>
-        </ul>
-    </div>
-    <br/>
-    <table border="1" style="width:100%">
-        <tr>
-            <th>Артикул</th>
-            <th>Название</th>
-            <th>Количество</th>
-            <th>Цена</th>
-            <th>Сумма</th>
-        </tr>
-        <tr th:each="orderDetailInfo : ${order.getDetails().getProducts()}">
-            <td th:utext="${orderDetailInfo.getKey().getCode()}"></td>
-            <td th:utext="${orderDetailInfo.getKey().getName()}"></td>
-            <td th:utext="${orderDetailInfo.getValue()}"></td>
-            <td th:utext="${#numbers.formatDecimal(orderDetailInfo.getKey().getPrice(),3,2,'COMMA')}"></td>
-            <td th:utext="${#numbers.formatDecimal((orderDetailInfo.getKey().getPrice() * orderDetailInfo.getValue()),3,2,'COMMA')}"></td>
-        </tr>
-    </table>
+	</div>
+	<br/>
+	<div class="row">
+		<div class="col-sm-12 col-md-10 col-md-offset-1">
+			<table class="table table-hover">
+				<thead>
+				<tr>
+					<th>Продукт</th>
+					<th>Количество</th>
+					<th class="text-center">Цена</th>
+					<th class="text-center">Сумма</th>
+				</tr>
+				</thead>
+				<tbody>
+				<span th:each="orderDetailInfo : ${order.getDetails().getProducts()}">
+                            <tr>
+                                <td class="col-sm-8 col-md-6">
+                                    <div class="media">
+                                        <a class="thumbnail pull-left" href="#">
+                                            <img class="media-object"
+                                                 th:src="@{|/productImage?code=${orderDetailInfo.getKey().getCode()}|}"
+                                                 style="width: 72px; height: 72px;"> </a>
+                                        <div class="media-body" style="padding-left: 5%;">
+                                            <h4 class="media-heading"
+                                                th:utext="${orderDetailInfo.getKey().getName()}"></h4>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="col-sm-1 col-md-1" style="text-align: center">
+                                   <span th:utext="${orderDetailInfo.getValue()}"></span>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong th:utext="${#numbers.formatDecimal(orderDetailInfo.getKey().getPrice(),3,2,'COMMA')}">$1.11</strong>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong th:utext="${#numbers.formatDecimal((orderDetailInfo.getKey().getPrice() * orderDetailInfo.getValue()),3,2,'COMMA')}">$11.11</strong>
+                                </td>
+                            </tr>
+                        </span>
+				<tr>
+					<td></td>
+					<td></td>
+					<td><h3>Стоимость</h3></td>
+					<td class="text-right"><h3>
+						<strong th:utext="${#numbers.formatDecimal(order.getAmount(),3,2,'COMMA')}">$31.53</strong>
+					</h3></td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
 
 <br><br>
