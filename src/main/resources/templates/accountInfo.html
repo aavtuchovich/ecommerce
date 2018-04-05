@@ -8,28 +8,46 @@
 
 
 <div class="container">
-    <h2>Профиль пользователя</h2>
-    <div class="user-container">
-        <ul>
-            <li>Имя пользователя: <span th:utext="${#request.userPrincipal.name}"></span></li>
-            Статус:
-            <div th:switch="${user.getUserState()}">
-                <p class="glyphicon-user ssv-big-bold-label" th:case="'ROLE_MANAGER'">Менеджер</p>
-                <p class="glyphicon-user ssv-big-bold-label" th:case="'ROLE_EMPLOYEE'">Пользователь</p>
-            </div>
-        </ul>
-    </div>
-    <div th:if="${#request.getParameter('error') == 'true'}" style="color: red; margin: 10px 0px;">
-        Заполните данные пользователя.
-    </div>
-    <form method="post" th:action="@{/profile}" th:object="${user}">
-        <input type="text" th:field="${user.fio}" placeholder="ФИО" class="form-control" required/>
-        <input type="text" th:field="${user.email}" placeholder="Адрес электронной почты" class="form-control"
-               required/>
-        <input type="text" th:field="${user.address}" placeholder="Адрес доставки" class="form-control" required/>
-        <input type="text" th:field="${user.phone}" placeholder="Контактный телефон" class="form-control" required/>
-        <button type="submit" class="btn btn-primary block full-width m-b">Сохранить</button>
-    </form>
+	<h2>Профиль пользователя</h2>
+	<div class="user-container">
+		<h3>Имя пользователя: <span th:utext="${#request.userPrincipal.name}"></span></h3>
+		<h4>
+			<div th:if="${user.userState == T(org.solteh.model.UserState).ROLE_EMPLOYEE}">
+				Статус:<span class="text-success">Пользователь</span></div>
+			<div th:if="${user.userState == T(org.solteh.model.UserState).ROLE_MANAGER}">
+				Статус:<span class="text-danger">Администратор</span>
+			</div>
+		</h4>
+	</div>
+	<div th:if="${#request.getParameter('error') == 'true'}" style="color: red; margin: 10px 0px;">
+		Заполните данные пользователя.
+	</div>
+	<h4>Персональная информация:</h4>
+	<form method="post" th:action="@{/profile}" th:object="${user}">
+		<ul class="list-group">
+			<li class="list-group-item"><input type="text"
+			                                   th:field="${user.fio}"
+			                                   placeholder="ФИО"
+			                                   class="form-control"
+			                                   required/></li>
+			<li class="list-group-item"><input type="text"
+			                                   th:field="${user.email}"
+			                                   placeholder="Адрес электронной почты"
+			                                   class="form-control"
+			                                   required/></li>
+			<li class="list-group-item"><input type="text"
+			                                   th:field="${user.address}"
+			                                   placeholder="Адрес доставки"
+			                                   class="form-control"
+			                                   required/></li>
+			<li class="list-group-item"><input type="text"
+			                                   th:field="${user.phone}"
+			                                   placeholder="Контактный телефон"
+			                                   class="form-control"
+			                                   required/></li>
+		</ul>
+		<button type="submit" class="btn btn-primary block full-width m-b">Сохранить</button>
+	</form>
 </div>
 <br><br>
 

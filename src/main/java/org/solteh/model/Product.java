@@ -1,5 +1,7 @@
 package org.solteh.model;
 
+import org.springframework.web.multipart.*;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -30,6 +32,9 @@ public class Product implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "Create_Date", nullable = false)
     private Date createDate;
+
+    @Transient
+    private MultipartFile fileData;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -81,6 +86,14 @@ public class Product implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public MultipartFile getFileData() {
+        return fileData;
+    }
+
+    public void setFileData(MultipartFile fileData) {
+        this.fileData = fileData;
     }
 }
 

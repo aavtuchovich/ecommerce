@@ -18,9 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class UserController {
@@ -96,11 +97,15 @@ public class UserController {
 	                          BindingResult result, //
 	                          final RedirectAttributes redirectAttributes) {
 
-		if (result.hasErrors()) {
-			return "product";
-		}
 		try {
-			productRepository.save(new Product());
+			Product newProduct = new Product();
+			newProduct.setCode(product.getCode());
+			newProduct.setDescription(product.getDescription());
+			newProduct.setImage(product.getFileData().getBytes());
+			newProduct.setName(product.getName());
+			newProduct.setPrice(product.getPrice());
+			newProduct.setCreateDate(new Date());
+			productRepository.save(newProduct);
 		} catch (Exception e) {
 			Throwable rootCause = ExceptionUtils.getRootCause(e);
 			String message = rootCause.getMessage();

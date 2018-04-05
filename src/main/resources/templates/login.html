@@ -6,37 +6,54 @@
 <div th:replace="fragments/webstore :: webstore"></div>
 <nav th:replace="fragments/nav :: nav"></nav>
 <div th:fragment="products" class="container center-block">
-	<h3>Авторизация</h3>
+	<div class="row ">
+		<div class="col-md-4">
+			<h3>Авторизация</h3>
+			<h4>Введите имя пользователя и пароль</h4>
+			<!-- /login?error=true -->
+			<th:block th:if="${#session != null && #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}">
+				<div th:if="${#request.getParameter('error') == 'true'}" style="color: red; margin: 10px 0px;">
+					Ошибка авторизации!!!<br/> Причина :
+					<span class="error-message" th:utext="${error}"></span>
+				</div>
+			</th:block>
 
-	<div class="login-container">
-		<h4>Введите имя пользователя и пароль</h4>
-		<!-- /login?error=true -->
-		<th:block th:if="${#session != null && #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}">
-			<div th:if="${#request.getParameter('error') == 'true'}" style="color: red; margin: 10px 0px;">
-				Ошибка авторизации!!!<br/> Причина :
-				<span class="error-message" th:utext="${error}"></span>
-			</div>
-		</th:block>
-
-		<form method="POST" th:action="@{/j_spring_security_check}">
-			<table>
-				<tr>
-					<td>Логин *</td>
-					<td><input name="userName"/></td>
-				</tr>
-				<tr>
-					<td>Пароль *</td>
-					<td><input type="password" name="password"/></td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-					<td>
-						<input type="submit" value="Авторизация"/>
-						<input type="reset" value="Сброс"/>
-					</td>
-				</tr>
-			</table>
-		</form>
+			<form method="POST" th:action="@{/j_spring_security_check}">
+				<table>
+					<tr>
+						<div class="form-group input-group has-feedback">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+							<input type="text"
+							       name="userName"
+							       placeholder="Имя пользователя"
+							       class="form-control"
+							       required/>
+							<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						</div>
+					</tr>
+					<tr>
+						<div class="form-group input-group">
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-lock"></span>
+          </span>
+							<input name="password"
+							       type="password"
+							       id="password"
+							       placeholder="Пароль"
+							       class="form-control"
+							       required/>
+							<span class="glyphicon" aria-hidden="true"></span>
+						</div>
+					</tr>
+					<tr>
+						<td>
+							<input type="submit" class="btn btn-info block full-width m-b" value="Авторизация"/>
+							<input type="reset" class="btn btn-info block full-width m-b" value="Сброс"/>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
 	</div>
 	<br><br>
 </div>

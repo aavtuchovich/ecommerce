@@ -1,6 +1,7 @@
 package org.solteh.repository;
 
 import org.solteh.model.*;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.*;
 
@@ -12,4 +13,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	@Override
 	List<Product> findAll();
+
+	@Override
+	Page<Product> findAll(Pageable pageable);
+
+
 }
