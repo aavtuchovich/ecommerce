@@ -1,6 +1,8 @@
 package org.solteh.web.controller;
 
+import org.solteh.model.News;
 import org.solteh.model.Product;
+import org.solteh.repository.NewsRepository;
 import org.solteh.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
@@ -16,15 +18,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class DefaultController {
 
 	private final ProductRepository productRepository;
+	private final NewsRepository newsRepository;
 
 	@Autowired
-	public DefaultController(ProductRepository productRepository) {
+	public DefaultController(ProductRepository productRepository, NewsRepository newsRepository) {
 		this.productRepository = productRepository;
+		this.newsRepository = newsRepository;
 	}
 
 	@GetMapping("/403")
@@ -35,8 +40,10 @@ public class DefaultController {
 	@GetMapping("/")
 	public String home(Model model) {
 		PageImpl<Product> page = (PageImpl<Product>) productRepository.findAll(gotoCustomPage(0, 3, Direction.ASC, "createDate"));
-		model.addAttribute("pageProducts", page);
-		model.addAttribute("products", productRepository.findAll());
+		List<Product> topSales = productRepository.find();
+		List<News> news = newsRepository.findTopNews();
+		model.addAttribute("products", topSales);
+		model.addAttribute("news", news);
 		return "index";
 	}
 
