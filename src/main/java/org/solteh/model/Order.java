@@ -1,6 +1,9 @@
 package org.solteh.model;
 
+import com.fasterxml.jackson.annotation.*;
+
 import javax.persistence.*;
+import java.io.*;
 import java.util.*;
 
 
@@ -10,8 +13,10 @@ import java.util.*;
  */
 @Entity
 @Table(name = "Orders")
-@SequenceGenerator(name = "seq", initialValue = 1)
-public class Order {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Order implements Serializable {
+
+	private static final long serialVersionUID = -1053096276411165964L;
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.AUTO)

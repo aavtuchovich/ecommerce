@@ -93,6 +93,9 @@ public class ShoppingCartController {
 		//getUser and redirect to profile if not personal info
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userRepository.findByUserName(auth.getName());
+		if (user == null) {
+			return "redirect:/login";
+		}
 		if (!user.isCorrectPersonalInfo()) {
 			model.addAttribute("error", true);
 			return "redirect:/profile";

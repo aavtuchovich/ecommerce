@@ -1,12 +1,7 @@
 package org.solteh.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Date;
+import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Table(name = "news")
@@ -15,8 +10,10 @@ public class News {
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	@Lob
 	@Column
 	private String title;
+	@Lob
 	@Column
 	private String text;
 	@Column

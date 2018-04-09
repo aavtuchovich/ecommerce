@@ -13,6 +13,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	List<Order> findOrdersByUserId(long id);
 
+	@Query(value = "select count(*),Order_Date from orders group by DATE_FORMAT(Order_Date, '%Y-%m-%d');",nativeQuery = true)
+	List<Object[]> findOrdersWithGroupByDate();
+
 	@Override
 	Order getOne(Long aLong);
 }

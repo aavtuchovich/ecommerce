@@ -1,11 +1,17 @@
 package org.solteh.model;
 
+import com.fasterxml.jackson.annotation.*;
+
 import javax.persistence.*;
+import java.io.*;
 import java.util.*;
 
 @Entity
 @Table(name = "Order_Details")
-public class OrderDetail {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
+public class OrderDetail implements Serializable {
+	private static final long serialVersionUID = -589747686685428188L;
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,16 +1,15 @@
 package org.solteh.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.*;
+
+import javax.persistence.*;
+import java.io.*;
 
 @Entity
 @Table(name = "Users")
-public class User {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class User implements Serializable {
+	private static final long serialVersionUID = -812013033671051986L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
