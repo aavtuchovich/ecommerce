@@ -1,7 +1,7 @@
-LOAD ={
-    loadOrderData : function(){
+LOAD = {
+    loadOrderData: function () {
 
-        var formattedorderListArray =[];
+        var formattedorderListArray = [];
 
         $.ajax({
 
@@ -10,14 +10,15 @@ LOAD ={
             // url: "StudentJsonDataServlet",
             url: "/JsonDataOrderReport",
 
-            dataType:"json",
+            dataType: "json",
 
-            success: function(orderJsonData) {
+            success: function (orderJsonData) {
 
                 console.log(orderJsonData);
 
-                $.each(orderJsonData,function(index,order){
-                    formattedorderListArray.push([order[0],order[1]]);
+                $.each(orderJsonData, function (index, order) {
+                    var date = new Date(order[1]);
+                    formattedorderListArray.push({y: order[0], x: order[1]});
                 });
             }
         });
@@ -30,19 +31,34 @@ window.onload = function () {
 
 //Better to construct options first and then pass it as a parameter
     var datapoint = LOAD.loadOrderData();
-    var options = {
-        title: {
-            text: "Spline Chart with Export as Image"
-        },
+    CanvasJS.addCultureInfo("ru",
+        {
+            decimalSeparator: ",",// Observe ToolTip Number Format
+            digitGroupSeparator: ".", // Observe axisY labels
+            months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+            shortMonths:["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
+});
+    var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
-        exportEnabled: true,
-        data: [
-            {
-                type: "spline", //change it to line, area, column, pie, etc
-                dataPoints: datapoint
-            }
-        ]
-    };
-    $("#chartContainer").CanvasJSChart(options);
+        culture:  "ru",
+        title: {
+            text: "Отчёт о заказах за весь период"
+        },
+        axisX: {
+            title: "Дата"
+        },
+        axisY: {
+            title: "Количество"
+        },
+        data: [{
+            type: "line",
+            connectNullData: true,
+            xValueType: "dateTime",
+            xValueFormatString: "DD MMMM HH:mm",
+            yValueFormatString: "#,##0.##\" \"",
+            dataPoints: datapoint
+        }]
+    });
+    chart.render();
 
 }
