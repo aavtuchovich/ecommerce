@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<script type="text/javascript" src="/static/js/markitup/jquery.markitup.js"></script>
+<script type="text/javascript" src="/static/js/markitup/sets/default/set.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/markitup/skins/markitup/style.css"/>
+<link rel="stylesheet" type="text/css" href="/static/js/markitup/sets/default/style.css"/>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#markItUp").markItUp(mySettings);
+    });
+</script>
+<div th:replace="fragments/webstore :: webstore"></div>
+<nav th:replace="fragments/nav :: nav"></nav>
+<th:block sec:authorize="hasRole('ROLE_MANAGER')">
+
+<div class="container">
+    <form th:object="${news}" th:action="@{/admin/news}" th:method="POST">
+        <div class="form-group">
+            <label for="title" >
+                Введите заголовок </label>
+            <input id="title" class="form-control" type="text" th:field="*{title}"/>
+            <label for="markItUp" >Введите тект новости</label>
+            <textarea id="markItUp" class="form-control" rows="10" th:field="*{text}"></textarea>
+            <button type="submit" class="form-control">Сохарнить</button>
+        </div>
+    </form>
+
+</div>
+</th:block>
+<br><br>
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

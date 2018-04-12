@@ -41,15 +41,15 @@
 <nav aria-label="Page navigation" class="text-center" th:if="${pageProducts.getTotalPages() > 0}">
     <ul class="pagination">
         <li class="page-item"><a class="page-link"
-                                 th:href="@{|/products/${pageProducts.getPageable().getPageNumber()}|}"
+                                 th:href="@{|/${parameterUrl}/${pageProducts.getPageable().getPageNumber()}|}"
                                  th:if="${pageProducts.getPageable().getPageNumber()>0}">Previous</a></li>
         <th:block th:each="page:${#numbers.sequence(1,pageProducts.getTotalPages(),1)} ">
             <li class="page-item" th:classappend="${pageProducts.getPageable().getPageNumber()+1 == page} ? active: ''">
-                <a class="page-link" th:href="@{|/products/${page}|}" th:if="${page != -1}"
+                <a class="page-link" th:href="@{|/${parameterUrl}/${page}|}" th:if="${page != -1}"
                    th:utext="${page}"></a></li>
         </th:block>
         <li class="page-item"><a class="page-link"
-                                 th:href="@{|/products/${pageProducts.getPageable().getPageNumber()+2}|}"
+                                 th:href="@{|/${parameterUrl}/${pageProducts.getPageable().getPageNumber()+2}|}"
                                  th:if="${pageProducts.getPageable().getPageNumber()+1 != pageProducts.getTotalPages()}">Next</a>
         </li>
 

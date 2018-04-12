@@ -1,26 +1,28 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="header">
-	<title>Интернет-приложение ведения электронной коммерции</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
-	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
-	<script type="text/javascript" src="/webjars/jquery/1.11.1/jquery.min.js"></script>
-	<script type="text/javascript" src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/static/js/report.js"></script>
+    <title>Интернет-приложение ведения электронной коммерции</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <script type="text/javascript" src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/report.js"></script>
 </head>
 <body>
 
 <div th:replace="fragments/webstore :: webstore"></div>
 <nav th:replace="fragments/nav :: nav"></nav>
 
+<th:block sec:authorize="hasRole('ROLE_MANAGER')">
 
-<div class="container">
-	<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <div class="container">
+        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 
-	<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
-</div>
+        <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+    </div>
+</th:block>
 <br><br>
 <footer th:replace="fragments/footer :: footer"></footer>
 </body>

@@ -7,56 +7,57 @@
 <div th:replace="fragments/webstore :: webstore"></div>
 <nav th:replace="fragments/nav :: nav"></nav>
 
+<th:block sec:authorize="hasRole('ROLE_MANAGER')">
 
-<div class="container">
-    <h2>Добавление продукта</h2>
-    <div th:if="${errorMessage!= null}" class="error-message" th:utext="${errorMessage}">
-    </div>
+    <div class="container">
+        <h2>Добавление продукта</h2>
+        <div th:if="${errorMessage!= null}" class="error-message" th:utext="${errorMessage}">
+        </div>
 
-    <form  th:object="${productForm}" th:action="@{/admin/product}" method="POST" enctype="multipart/form-data">
-        <table style="text-align:left;">
-            <tr>
-                <td>Код *</td>
-                <td style="color:red;">
-                    <input type="text"
-                           th:field="*{code}" />
-                </td>
+        <form th:object="${productForm}" th:action="@{/admin/product}" method="POST" enctype="multipart/form-data">
+            <table style="text-align:left;">
+                <tr>
+                    <td>Код *</td>
+                    <td style="color:red;">
+                        <input type="text"
+                               th:field="*{code}"/>
+                    </td>
 
-            </tr>
-            <tr>
-                <td>Название продукта *</td>
-                <td><input th:field="*{name}"  /></td>
-            </tr>
-            <tr>
-                <td>Описание продукта продукта *</td>
-                <td><input th:field="*{description}"  /></td>
-            </tr>
-            <tr>
-                <td>Цена *</td>
-                <td><input th:field="*{price}"  /></td>
-            </tr>
-            <tr>
-                <td>Картинка</td>
-                <td>
-                    <img th:src="@{|/productImage?code=${productForm.code}|}" width="100"/>
-                </td>
-            </tr>
-            <tr>
-                <td>Загрузка картинки:</td>
-                <td><input type="file" th:field="*{fileData}" /></td>
                 </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>
-                    <input type="submit" value="Добавить" />
-                    <input type="reset" value="Сброс" />
-                </td>
-            </tr>
-        </table>
-    </form>
-</div>
-<br><br>
-
+                <tr>
+                    <td>Название продукта *</td>
+                    <td><input th:field="*{name}"/></td>
+                </tr>
+                <tr>
+                    <td>Описание продукта продукта *</td>
+                    <td><input th:field="*{description}"/></td>
+                </tr>
+                <tr>
+                    <td>Цена *</td>
+                    <td><input th:field="*{price}"/></td>
+                </tr>
+                <tr>
+                    <td>Картинка</td>
+                    <td>
+                        <img th:src="@{|/productImage?code=${productForm.code}|}" width="100"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Загрузка картинки:</td>
+                    <td><input type="file" th:field="*{fileData}"/></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        <input type="submit" value="Добавить"/>
+                        <input type="reset" value="Сброс"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <br><br>
+</th:block>
 <footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>
