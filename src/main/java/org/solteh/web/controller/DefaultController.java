@@ -44,15 +44,15 @@ public class DefaultController {
 		Page<TopSaleProduct> page = null;
 		if (pageNumber == null || pageNumber == 0) {
 			pageNumber = 0;
-			page = productRepository.findTopSalesProducts(gotoPage(0));
+			page = productRepository.findTopSales(gotoPage(0));
 		} else if (pageNumber < 0) {
-			page = productRepository.findTopSalesProducts(gotoPage(0));
+			page = productRepository.findTopSales(gotoPage(0));
 		} else {
 			pageNumber = pageNumber - 1;
-			page = productRepository.findTopSalesProducts(gotoPage(pageNumber));
+			page = productRepository.findTopSales(gotoPage(pageNumber));
 		}
 		if (page != null && page.getTotalPages() < pageNumber) {
-			page = productRepository.findTopSalesProducts(gotoPage(page.getTotalPages()));
+			page = productRepository.findTopSales(gotoPage(page.getTotalPages()));
 		}
 		model.addAttribute("parameterUrl","topsales");
 		model.addAttribute("pageProducts", page);

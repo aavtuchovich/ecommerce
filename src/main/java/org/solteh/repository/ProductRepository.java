@@ -23,6 +23,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "SELECT prod.* FROM products prod LEFT OUTER JOIN orderdetail_products p2 ON prod.Code=p2.products_KEY AND p2.products >=1 group by prod.code order by p2.products DESC LIMIT 3", nativeQuery = true)
     List<Product> find();
 
-    @Query(value = "SELECT prod.* FROM products prod LEFT OUTER JOIN orderdetail_products p2 ON prod.Code=p2.products_KEY AND p2.products >=1 group by prod.code order by p2.products DESC", nativeQuery = true)
-    Page<TopSaleProduct> findTopSalesProducts(Pageable pageable);
+    @Query(value = "SELECT p2.products,prod.* FROM products prod LEFT OUTER JOIN orderdetail_products p2 ON prod.Code=p2.products_KEY AND p2.products >=1 group by prod.code order by prod.Create_Date DESC ", nativeQuery = true)
+    Page<TopSaleProduct> findTopSales(Pageable pageable);
 }
