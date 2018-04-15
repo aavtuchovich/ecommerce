@@ -2,17 +2,20 @@
     <div>
         <div class="row">
             <div class="col-sm-3">
-                <h3 class="col-sm-12">Новости:</h3>
-                <th:block th:each="item: ${news}">
-                    <div class="news">
-                        <h5 th:utext="${item.getTitle()}">News title</h5>
-                        <div class="col-sm-12">
-                            <a href="#" th:href="@{|/news/${item.getId()}|}" class="pull-right">Подробнее
-                            </a>
-                        </div>
-                        <hr class="custom-hr">
-                    </div>
-                </th:block>
+                <div class="list-group">
+                    <h3 class="nav-header disabled"><a>Новости: </a></h3>
+
+                    <th:block th:each="item: ${news}">
+                        <a th:href="@{|/news/${item.getId()}|}"
+                           class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1" th:utext="${item.getTitle()}">List group item heading</h5>
+                                <small th:text="${#dates.format(item.getCreateDate(), 'dd-MMM-yyyy')}">3 days ago
+                                </small>
+                            </div>
+                        </a>
+                    </th:block>
+                </div>
             </div>
             <div class="col-sm-9">
                 <h3 class="col-sm-12">Самые покупаемые товары:</h3>
@@ -22,20 +25,27 @@
                             <div class="panel-heading" th:text="${product.getName()}">BLACK FRIDAY DEAL</div>
                             <div class="panel-body"><img th:src="@{|/productImage?code=${product.getCode()}|}"
                                                          class="img-responsive">
-                                <li>Код товара: <span th:utext="${product.getCode()}"></span></li>
-                                <li><span class="html-editor-bold" th:utext="${product.getName()}"></span></li>
-                                </li>
+                                <div class="caption">
+                                    <h5 th:utext="${product.getName()}"></h5>
+                                    <p th:utext="${product.getDescription()}"></p>
+                                </div>
+                                <div class="ratings">
+                                    <h5 class="pull-right"
+                                        th:utext="${#numbers.formatDecimal(product.getPrice(),1,2,'COMMA')+' руб.'} "></h5>
+                                    <p>
+                                    </p>
+                                </div>
+
+
                                 <th:block sec:authorize="hasAuthority('ROLE_MANAGER')">
-                                    <li>
-                                        <a style="color:red;" th:href="@{|/admin/product?code=${product.getCode()}|}">Edit
-                                            Product</a>
-                                    </li>
+
+                                    <a style="color:red;"
+                                       th:href="@{|/admin/product?code=${product.getCode()}|}">Edit Product</a>
+
                                 </th:block>
-                                </ul>
                             </div>
                             <div class="panel-footer">
                                 <span th:text="${product.getName()}"></span>
-                                <span th:utext="${#numbers.formatDecimal(product.getPrice(),1,2,'COMMA')}"></span>
                                 <a href="#" th:href="@{|/buyProduct?code=${product.getCode()}|}">
                                     <span class="glyphicon glyphicon-shopping-cart pull-right"></span>
                                 </a></div>
@@ -46,5 +56,4 @@
         </div>
     </div>
     <br>
-
 </div>

@@ -1,17 +1,28 @@
 package org.solteh.web.controller;
 
-import org.solteh.model.*;
-import org.solteh.repository.*;
-import org.solteh.utils.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.security.core.*;
-import org.springframework.security.core.context.*;
-import org.springframework.stereotype.*;
-import org.springframework.ui.*;
-import org.springframework.web.bind.annotation.*;
+import org.solteh.model.CartInfo;
+import org.solteh.model.CartLineInfo;
+import org.solteh.model.Order;
+import org.solteh.model.OrderDetail;
+import org.solteh.model.Product;
+import org.solteh.model.User;
+import org.solteh.repository.OrderDetailRepository;
+import org.solteh.repository.OrderRepository;
+import org.solteh.repository.ProductRepository;
+import org.solteh.repository.UserRepository;
+import org.solteh.utils.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.*;
-import java.util.*;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @Controller
 public class ShoppingCartController {
@@ -41,7 +52,7 @@ public class ShoppingCartController {
 			}
 		}
 
-		return "redirect:/";
+        return "redirect:/shoppingCart";
 	}
 
 	@GetMapping({"/shoppingCartRemoveProduct"})

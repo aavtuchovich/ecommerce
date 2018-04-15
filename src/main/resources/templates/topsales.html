@@ -3,12 +3,12 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="fragments/head :: head"></head>
 <body>
-
 <div th:replace="fragments/webstore :: webstore"></div>
 <nav th:replace="fragments/nav :: nav"></nav>
 
 <div th:fragment="products" class="container">
     <div class="row">
+
         <th:block th:each="product: ${products}">
             <div class="col-sm-4">
                 <div class="panel panel-primary">
@@ -23,6 +23,13 @@
                             <h4 class="pull-right"
                                 th:utext="${#numbers.formatDecimal(product.getPrice(),1,2,'COMMA')+' руб.'} "></h4>
                             <p>
+                            <div class="star-ratings-css">
+                                <div class="star-ratings-css-top"
+                                     th:style="'width:' +@{${ratings.get(product.getCode())}}+'%'">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                <div class="star-ratings-css-bottom">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                            </div>
                             </p>
                         </div>
 

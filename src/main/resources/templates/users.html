@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="fragments/head :: head"></head>
+<body>
+
+<div th:replace="fragments/webstore :: webstore"></div>
+<nav th:replace="fragments/nav :: nav"></nav>
+
+
+<th:block sec:authorize="hasRole('ROLE_MANAGER')">
+
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Login</th>
+                <th scope="col">FIO</th>
+                <th scope="col">email</th>
+                <th scope="col">Link</th>
+            </tr>
+            </thead>
+            <tbody th:each="user: ${users}">
+            <tr>
+                <th scope="row" th:utext="${user.getId()}">1</th>
+                <td th:utext="${user.getUserName()}">Mark</td>
+                <td th:utext="${user.getFio()}">Mark</td>
+                <td th:utext="${user.getEmail()}">Otto</td>
+                <td><a th:href="@{|/userOrder/${user.getId()}|}">Link</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</th:block>
+<br><br>
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

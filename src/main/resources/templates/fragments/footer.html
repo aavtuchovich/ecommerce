@@ -1,7 +1,8 @@
-<footer th:fragment="footer" class="container-fluid text-center">
+<footer xmlns:th="http://www.thymeleaf.org" th:fragment="footer" class="container-fluid text-center"
+        style="margin-bottom: 50px">
     <p>Интернет-приложение ведения электронной коммерции</p>
-    <form class="form-inline">Получать уведомления
-        <input type="email" class="form-control" size="50" placeholder="Email адрес">
-        <button type="button" class="btn btn-danger">Подписаться</button>
+    <form class="form-inline" th:method="post" th:action="@{/subscribe}">Получать уведомления
+        <input type="email" id="email" name="email" class="form-control" size="50" placeholder="Email адрес">
+        <button type="submit" class="btn btn-danger">Подписаться</button>
     </form>
 </footer>
