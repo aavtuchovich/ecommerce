@@ -8,7 +8,9 @@
 
 <div th:fragment="products" class="container">
     <div class="row">
-
+        <th:block th:if="${products.size() == 0}">
+            <h4>В данной категории пока нет товаров. Сделайте первый заказ.</h4>
+        </th:block>
         <th:block th:each="product: ${products}">
             <div class="col-sm-4">
                 <div class="panel panel-primary">
