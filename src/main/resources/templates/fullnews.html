@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="fragments/head :: head"></head>
 <body>
 
@@ -7,36 +7,42 @@
 
 
 <div class="container">
-	<div class="row">
-		<div id="postlist">
-			<div class="panel">
-				<div class="panel-heading">
-					<div class="text-center">
-						<div class="row">
-							<div class="col-sm-9">
-								<h3 class="pull-left"><span th:utext="${news.getTitle()}"></span>
-								</h3>
-							</div>
-							<div class="col-sm-3">
-								<h4 class="pull-right">
-									<small><em th:text="${#dates.format(news.getCreateDate(), 'dd MMMM yyyy HH:mm')}">2014-07-30<br>18:30:00</em>
-									</small>
-								</h4>
-							</div>
-						</div>
-					</div>
-				</div>
+    <div class="row">
+        <div id="postlist">
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="text-center">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <h3 class="pull-left"><span th:utext="${news.getTitle()}"></span>
+                                </h3>
+                            </div>
+                            <div class="col-sm-3">
+                                <h4 class="pull-right">
+                                    <small><em th:text="${#dates.format(news.getCreateDate(), 'dd MMMM yyyy HH:mm')}">2014-07-30<br>18:30:00</em>
+                                    </small>
+                                    <th:block sec:authorize="hasRole('ROLE_MANAGER')">
+                                        <br/>
+                                        <small><a th:href="@{|/news/remove/${news.getId()}|}"><em class="alert-danger">удалить
+                                            запись</em></a></small>
+                                    </th:block>
 
-				<div class="panel-body" th:utext="${news.getText()}">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in... <a href="#">Read more</a>
-				</div>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-			</div>
-		</div>
-	</div>
+                <div class="panel-body" th:utext="${news.getText()}">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in... <a href="#">Read more</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 <br><br>
 <footer th:replace="fragments/footer :: footer"></footer>

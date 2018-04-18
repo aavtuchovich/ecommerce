@@ -38,7 +38,7 @@ public class NewsController {
         return "fullnews";
     }
 
-    @PostMapping("/news/remove/{id}")
+    @GetMapping("/news/remove/{id}")
     public String removeNews(@PathVariable long id, Model model) {
         newsRepository.deleteById(id);
         return "redirect:/";
