@@ -99,12 +99,12 @@ public class UserController {
 
     // GET: Delete product.
     @GetMapping(value = {"/admin/remove"})
-    public String removeProduct(Model model, @RequestParam(value = "code", defaultValue = "") String code) {
+    public String removeProduct(@RequestParam(value = "code", defaultValue = "") String code) {
         Product product = null;
         if (code != null && code.length() > 0) {
             productRepository.delete(productRepository.findByCode(code));
         }
-        return "product";
+        return "redirect:/products";
     }
 
 
