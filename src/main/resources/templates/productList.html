@@ -30,7 +30,9 @@
                         <th:block sec:authorize="hasAuthority('ROLE_MANAGER')">
 
                             <a style="color:red;"
-                               th:href="@{|/admin/product?code=${product.getCode()}|}">Edit Product</a>
+                               th:href="@{|/admin/product?code=${product.getCode()}|}">Изменить продукт</a>
+                            <a style="color:red;"
+                               th:href="@{|/admin/remove?code=${product.getCode()}|}">Удалить продукт</a>
 
                         </th:block>
                     </div>

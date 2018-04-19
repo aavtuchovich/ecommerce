@@ -97,6 +97,17 @@ public class UserController {
         return "product";
     }
 
+    // GET: Delete product.
+    @GetMapping(value = {"/admin/remove"})
+    public String removeProduct(Model model, @RequestParam(value = "code", defaultValue = "") String code) {
+        Product product = null;
+        if (code != null && code.length() > 0) {
+            productRepository.delete(productRepository.findByCode(code));
+        }
+        return "product";
+    }
+
+
     @GetMapping("/admin/users")
     public String findAllUsers(Model model) {
         model.addAttribute("users", userRepository.findAll());
